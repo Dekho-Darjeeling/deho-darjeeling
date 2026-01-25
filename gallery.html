@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | Dekho Darjeeling</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/gallery.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header sticky">
+        <div class="logo"><img src="assets/images/DekhoDarjeeling_PNG.png" alt="Logo"></div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="tours.html">Tours</a>
+            <a href="hiking.html">Hiking</a>
+            <a href="gallery.html" class="active">Gallery</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div class="mobile-menu-btn" id="menu-btn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <div class="mobile-drawer" id="mobile-drawer">
+            <div class="drawer-header">
+                <span>Dekho Darjeeling</span>
+                <i class="fa-solid fa-xmark" id="drawer-close"></i>
+            </div>
+            <a href="index.html">Home</a>
+            <a href="tours.html">Tours</a>
+            <a href="hiking.html">Hiking</a>
+            <a href="gallery.html" class="active">Gallery</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="gallery-hero" data-animate>
+        <h1>Photo Gallery</h1>
+        <p>Discover scenic beauty, adventure & culture</p>
+    </section>
+
+    <!-- GALLERY FILTER -->
+    <section class="gallery-filter" data-animate>
+        <button class="filter-btn active" data-filter="all">
+            <i class="fa-solid fa-images"></i> All
+        </button>
+        <button class="filter-btn" data-filter="adventure">
+            <i class="fa-solid fa-hiking"></i> Adventure
+        </button>
+        <button class="filter-btn" data-filter="tours">
+            <i class="fa-solid fa-bus"></i> Tours
+        </button>
+        <button class="filter-btn" data-filter="nature">
+            <i class="fa-solid fa-leaf"></i> Nature
+        </button>
+    </section>
+
+    <!-- GALLERY GRID -->
+    <section class="gallery-grid" data-animate>
+        <img src="img/gallery1.jpg" class="gallery-item" data-category="nature" alt="Tea Garden">
+        <img src="img/gallery2.jpg" class="gallery-item" data-category="adventure" alt="Tiger Hill">
+        <img src="img/gallery3.jpg" class="gallery-item" data-category="adventure" alt="Trekking Route">
+        <img src="img/gallery4.jpg" class="gallery-item" data-category="tours" alt="Local Market">
+        <img src="img/gallery5.jpg" class="gallery-item" data-category="nature" alt="Mount Kanchenjunga">
+        <img src="img/gallery6.jpg" class="gallery-item" data-category="nature" alt="Valley View">
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section class="cta-section" data-animate>
+        <h2>Ready for Your Own Adventure?</h2>
+        <p>Book a tour or trek and capture memories like these.</p>
+    </section>
+
+    <!-- LIGHTBOX -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-prev" onclick="changeImage(-1)">&#10094;</button>
+        <img id="lightboxImage">
+        <button class="lightbox-next" onclick="changeImage(1)">&#10095;</button>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2025 Dekho Darjeeling · Explore The Queen of Hills</p>
+    </footer>
+
+    <script src="assets/js/app.js"></script>
+    <script>
+
+        // Gallery Filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.getAttribute('data-filter');
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                        gsap.fromTo(item, {opacity: 0, scale: 0.9}, {opacity: 1, scale: 1, duration: 0.5});
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Lightbox
+        const lightbox = document.getElementById('lightbox');
+        const lightImg = document.getElementById('lightboxImage');
+        let currentIndex = 0;
+        const images = Array.from(galleryItems);
+
+        images.forEach((img, index) => {
+            img.addEventListener('click', () => {
+                currentIndex = index;
+                showImage();
+            });
+        });
+
+        function showImage() {
+            lightImg.src = images[currentIndex].src;
+            lightbox.classList.add('show');
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('show');
+        }
+
+        function changeImage(direction) {
+            currentIndex = (currentIndex + direction + images.length) % images.length;
+            showImage();
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('show')) {
+                if (e.key === 'ArrowLeft') changeImage(-1);
+                if (e.key === 'ArrowRight') changeImage(1);
+                if (e.key === 'Escape') closeLightbox();
+            }
+        });
+
+        // Animations
+        gsap.from('.gallery-hero h1, .gallery-hero p, .gallery-hero .btn', {opacity: 0, y: 30, duration: 1, stagger: 0.2});
+        gsap.from('.gallery-filter', {opacity: 0, y: 50, duration: 1, delay: 0.5});
+        gsap.from('.gallery-grid img', {opacity: 0, scale: 0.95, duration: 1, stagger: 0.15, delay: 0.7});
+        gsap.from('.cta-section', {opacity: 0, y: 50, duration: 1, delay: 1});
+    </script>
+</body>
+</html>

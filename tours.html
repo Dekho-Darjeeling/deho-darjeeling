@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Tour | Dekho Darjeeling</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/tour.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header sticky">
+        <div class="logo"><img src="assets/images/DekhoDarjeeling_PNG.png" alt="Logo"></div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="tours.html" class="active">Tours</a>
+            <a href="hiking.html">Hiking</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div class="mobile-menu-btn" id="menu-btn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <div class="mobile-drawer" id="mobile-drawer">
+            <div class="drawer-header">
+                <span>Dekho Darjeeling</span>
+                <i class="fa-solid fa-xmark" id="drawer-close"></i>
+            </div>
+            <a href="index.html">Home</a>
+            <a href="tours.html" class="active">Tours</a>
+            <a href="hiking.html">Hiking</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="sub-hero tours-hero" data-animate>
+        <h1>Book Your Darjeeling Tour</h1>
+        <p>Hand-picked sightseeing experiences with certified local guides</p>
+        <a href="https://roshnitravels.in/package" class="btn hero-btn" target="_blank" rel="noopener noreferrer">
+            <i class="fa-solid fa-external-link-alt"></i> Explore More Tours & Book
+        </a>
+    </section>
+
+    <!-- POPULAR TOUR PACKAGES -->
+    <section class="packages-section" data-animate>
+        <h2>Popular Tour Packages</h2>
+        <div class="package-grid">
+            <div class="package-card">
+                <i class="fa-solid fa-sun package-icon"></i>
+                <h3>Tiger Hill Sunrise Tour</h3>
+                <p>Witness the famous golden sunrise with Kanchenjunga backdrop.</p>
+            </div>
+            <div class="package-card">
+                <i class="fa-solid fa-leaf package-icon"></i>
+                <h3>Tea Garden Experience</h3>
+                <p>Visit authentic tea estates, learn processing & taste premium teas.</p>
+            </div>
+            <div class="package-card">
+                <i class="fa-solid fa-building-columns package-icon"></i>
+                <h3>City Heritage Tour</h3>
+                <p>Explore colonial landmarks, ropeway, monasteries & museums.</p>
+            </div>
+        </div>
+        <a href="https://roshnitravels.in/package" class="btn explore-btn" target="_blank" rel="noopener noreferrer">
+            <i class="fa-solid fa-external-link-alt"></i> Explore More Tours & Book
+        </a>
+    </section>
+
+    <!-- BOOKING FORM -->
+    <section class="booking-section" data-animate>
+        <h2>Tour Booking Form</h2>
+        <form id="tourForm" class="booking-form" method="POST" action="http://localhost:8000/api/book-tour">
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" name="name" required placeholder="Your full name">
+            </div>
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" name="email" required placeholder="you@example.com">
+            </div>
+            <div class="form-group">
+                <label>Phone *</label>
+                <input type="tel" name="phone" required placeholder="+91-XXXXXXXXXX">
+            </div>
+            <div class="form-group">
+                <label>Select Tour Package *</label>
+                <select name="package" required>
+                    <option value="">Choose One</option>
+                    <option>Tiger Hill Sunrise Tour</option>
+                    <option>City Heritage Tour</option>
+                    <option>Tea Garden Tour</option>
+                    <option>Mirik Lake & Indo-Border Tour</option>
+                    <option>Custom Tour</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Preferred Date *</label>
+                <input type="date" name="date" required>
+            </div>
+            <div class="form-group">
+                <label>Number of People *</label>
+                <input type="number" name="persons" min="1" required placeholder="e.g. 2">
+            </div>
+            <div class="form-group full">
+                <label>Pickup Location</label>
+                <input type="text" name="pickup" placeholder="Hotel / Home / Bus Stand">
+            </div>
+            <div class="form-group full">
+                <label>Additional Notes (Optional)</label>
+                <textarea name="notes" placeholder="Any preferences or questions?"></textarea>
+            </div>
+            <input type="hidden" name="captcha_token" id="captchaToken">
+            <button type="submit" class="btn primary">Submit Booking</button>
+        </form>
+    </section>
+
+    <!-- WHAT'S INCLUDED SECTION -->
+    <section class="includes-section" data-animate>
+        <h2>What’s Included?</h2>
+        <ul class="includes-list">
+            <li><i class="fa-solid fa-car"></i> Private Vehicle & Driver</li>
+            <li><i class="fa-solid fa-user-tie"></i> Licensed Local Guide</li>
+            <li><i class="fa-solid fa-shield-halved"></i> On-trip Support & Assistance</li>
+            <li><i class="fa-solid fa-camera"></i> Scenic Photography Spots</li>
+        </ul>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="reviews-section" data-animate>
+        <h2>Guest Reviews</h2>
+        <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote"></i>
+            <p>“Amazing experience! The sunrise tour was breathtaking. Highly recommend!”</p>
+            <span>- Maya, Bengaluru</span>
+        </div>
+        <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote"></i>
+            <p>“Friendly guide, comfortable vehicle, great planning. Will book again.”</p>
+            <span>- Rohan, Pune</span>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" data-animate>
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq">
+            <h4><i class="fa-solid fa-question-circle"></i> Can I customize the tour?</h4>
+            <p>Yes, customizations are available depending on the schedule.</p>
+        </div>
+        <div class="faq">
+            <h4><i class="fa-solid fa-question-circle"></i> Do you offer pickup?</h4>
+            <p>Pickup & drop available from hotels, stations, and bus stand.</p>
+        </div>
+        <div class="faq">
+            <h4><i class="fa-solid fa-question-circle"></i> How early should I book?</h4>
+            <p>We recommend booking at least 7 days in advance.</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2025 Dekho Darjeeling — Explore The Queen of Hills</p>
+    </footer>
+
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/animations.js"></script>
+</body>
+</html>

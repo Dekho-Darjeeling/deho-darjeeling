@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Dekho Darjeeling</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/contact.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header sticky">
+        <div class="logo"><img src="assets/images/DekhoDarjeeling_PNG.png" alt="Logo"></div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="tours.html">Tours</a>
+            <a href="hiking.html">Hiking</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html" class="active">Contact</a>
+        </nav>
+        <div class="mobile-menu-btn" id="menu-btn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <div class="mobile-drawer" id="mobile-drawer">
+            <div class="drawer-header">
+                <span>Dekho Darjeeling</span>
+                <i class="fa-solid fa-xmark" id="drawer-close"></i>
+            </div>
+            <a href="index.html">Home</a>
+            <a href="tours.html">Tours</a>
+            <a href="hiking.html">Hiking</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html" class="active">Contact</a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="contact-hero" data-animate>
+        <h1>Contact Us</h1>
+        <p>Have questions? We're here to assist!</p>
+    </section>
+
+    <!-- WHY CONTACT US -->
+    <section class="why-contact" data-animate>
+        <h2>Why Contact Us?</h2>
+        <div class="why-grid">
+            <div class="why-item">
+                <i class="fa-solid fa-clock"></i>
+                <h3>Quick Response</h3>
+                <p>Get answers within 24 hours.</p>
+            </div>
+            <div class="why-item">
+                <i class="fa-solid fa-user-tie"></i>
+                <h3>Expert Guidance</h3>
+                <p>Personalized advice from locals.</p>
+            </div>
+            <div class="why-item">
+                <i class="fa-solid fa-shield-halved"></i>
+                <h3>Safe & Secure</h3>
+                <p>Your inquiries are handled with care.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT CONTAINER -->
+    <section class="contact-container" data-animate>
+        <div class="contact-form">
+            <h2>Send Us a Message</h2>
+            <form action="thankyou.html" method="POST">
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" name="name" placeholder="Your Name" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-phone"></i>
+                    <input type="tel" name="phone" placeholder="Phone Number" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" name="email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-list"></i>
+                    <select name="purpose" required>
+                        <option value="" disabled selected>Choose Inquiry Type</option>
+                        <option value="tours">Tour Booking</option>
+                        <option value="trekking">Trekking Booking</option>
+                        <option value="general">General Inquiry</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-message"></i>
+                    <textarea name="message" placeholder="Write your message..." rows="5"></textarea>
+                </div>
+                <button type="submit" class="btn">Submit</button>
+            </form>
+            <a class="whatsapp-btn" href="#" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp Quick Chat
+            </a>
+        </div>
+        <div class="contact-info">
+            <h2>Reach Us</h2>
+            <p><i class="fa-solid fa-map-marker-alt"></i> <strong>Location:</strong> Darjeeling, West Bengal</p>
+            <p><i class="fa-solid fa-phone"></i> <strong>Phone:</strong> +91 9XXXXXXXXX</p>
+            <p><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> info@dekho-darjeeling.com</p>
+            <div class="map-placeholder">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.0!2d88.26!3d27.04!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e42e!2zMTDCsDAyJzAwLjAiTiA4OMKwMTUnMzYuMCJF!5e0!3m2!1sen!2sin!4v1234567890" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2025 Dekho Darjeeling · Explore The Queen of Hills</p>
+    </footer>
+
+    <script>
+
+        // Animations
+        gsap.from('.contact-hero h1, .contact-hero p, .contact-hero .btn', {opacity: 0, y: 30, duration: 1, stagger: 0.2});
+        gsap.from('.why-contact', {opacity: 0, y: 50, duration: 1, delay: 0.5});
+        gsap.from('.contact-container', {opacity: 0, y: 50, duration: 1, delay: 0.7});
+    </script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

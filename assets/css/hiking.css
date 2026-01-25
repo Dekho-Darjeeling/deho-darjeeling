@@ -1,0 +1,402 @@
+/* ==================== TREKKING.CSS (Enhanced & Attractive) ==================== */
+
+/* HERO SECTION */
+.sub-hero {
+  position: relative;
+  height: 70vh;
+  background: linear-gradient(135deg, rgba(46, 139, 87, 0.7), rgba(30, 144, 255, 0.5)), url('../images/hero-bg.jpg') center/cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.sub-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.sub-hero h1, .sub-hero p, .sub-hero .btn {
+  position: relative;
+  z-index: 2;
+}
+
+.sub-hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 700;
+  text-shadow: 3px 3px 20px rgba(0,0,0,0.7);
+  margin-bottom: 15px;
+  animation: fadeInUp 1s ease-out;
+}
+
+.sub-hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  animation: fadeInUp 1s ease-out 0.2s both;
+}
+
+.hero-btn {
+  background: linear-gradient(45deg, #ff4500, #ffa500);
+  color: white;
+  padding: 12px 25px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(255, 69, 0, 0.4);
+}
+
+.hero-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(255, 69, 0, 0.6);
+}
+
+/* ROUTES GRID */
+.routes-section {
+  padding: 6rem 10%;
+  background: linear-gradient(to bottom, #f9f9f9, #e8f5e8);
+  text-align: center;
+}
+
+.routes-section h2 {
+  font-size: 2.5rem;
+  color: #191970;
+  margin-bottom: 3rem;
+}
+
+.route-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+
+.route-card {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.route-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #191970, #228b22);
+  transition: height 0.3s ease;
+}
+
+.route-card:hover::before {
+  height: 10px;
+}
+
+.route-card:hover {
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(25, 25, 112, 0.2);
+}
+
+.route-icon {
+  font-size: 3rem;
+  color: #191970;
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+}
+
+.route-card:hover .route-icon {
+  color: #228b22;
+}
+
+.route-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.route-card p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.explore-btn {
+  display: inline-block;
+  margin-top: 3rem;
+  background: linear-gradient(45deg, #191970, #228b22);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(25, 25, 112, 0.4);
+}
+
+.explore-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(25, 25, 112, 0.6);
+}
+
+/* ================= BOOKING FORM (Enhanced) ================= */
+
+.booking-section {
+  padding: 6rem 10%;
+  background: linear-gradient(to right, #e8f5e8, #f0f8ff);
+}
+
+.booking-form {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 4rem;
+  border-radius: 25px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  animation: fadeInUp 1s ease-out;
+}
+
+.booking-form h2 {
+  grid-column: span 2;
+  margin-bottom: 2rem;
+  color: #191970;
+  font-size: 2.2rem;
+}
+
+.form-group {
+  text-align: left;
+}
+
+.form-group.full {
+  grid-column: span 2;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+  letter-spacing: 0.5px;
+}
+
+/* Input Styling Upgrade */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 15px 18px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background: #fafafa;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* Focus Enhancements */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #191970;
+  background: #fff;
+  box-shadow: 0 0 0 5px rgba(25, 25, 112, 0.15);
+  outline: none;
+  transform: scale(1.02);
+}
+
+/* Placeholder Styling */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+/* Improve Textarea */
+.form-group textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+/* Button Enhancement */
+.booking-form button {
+  grid-column: span 2;
+  padding: 18px;
+  background: linear-gradient(45deg, #191970, #228b22);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(25, 25, 112, 0.4);
+}
+
+.booking-form button:hover {
+  background: linear-gradient(45deg, #0f0f4a, #1a5a1a);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(25, 25, 112, 0.6);
+}
+
+/* WHAT'S INCLUDED */
+.includes-section {
+  padding: 6rem 10%;
+  text-align: center;
+  background: linear-gradient(to bottom, #fff, #f0f8ff);
+}
+
+.includes-section h2 {
+  font-size: 2.5rem;
+  color: #191970;
+  margin-bottom: 3rem;
+}
+
+.includes-list {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.includes-list li {
+  background: #ffffff;
+  padding: 0.8rem 1.8rem;
+  border-radius: 30px;
+  font-weight: 600;
+  color: #191970;
+  border: 2px solid #191970;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.includes-list li:hover {
+  background: #191970;
+  color: #ffffff;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(25, 25, 112, 0.3);
+}
+
+/* REVIEWS SECTION */
+.reviews-section {
+  padding: 6rem 10%;
+  text-align: center;
+  background: linear-gradient(to right, #f9f9f9, #eef7ff);
+}
+
+.reviews-section h2 {
+  font-size: 2.5rem;
+  color: #2e8b57;
+  margin-bottom: 3rem;
+}
+
+.review-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 20px;
+  max-width: 700px;
+  margin: 1.5rem auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  font-style: italic;
+  border-left: 5px solid #2e8b57;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+/* FAQ SECTION */
+.faq-section {
+  padding: 6rem 10%;
+  text-align: center;
+  background: #fff;
+}
+
+.faq-section h2 {
+  font-size: 2.5rem;
+  color: #2e8b57;
+  margin-bottom: 2.5rem;
+}
+
+.faq {
+  max-width: 800px;
+  margin: 1.5rem auto;
+  background: white;
+  padding: 1.8rem;
+  border-radius: 15px;
+  border-left: 5px solid #2e8b57;
+  text-align: left;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.faq:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+}
+
+
+/* ================= ANIMATIONS ================= */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(25px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .booking-form {
+    grid-template-columns: 1fr;
+    padding: 2.5rem;
+  }
+
+  .booking-form button {
+    grid-column: span 1;
+  }
+
+  .routes-section {
+    padding: 4rem 7%;
+  }
+
+  .includes-section {
+    padding: 4rem 7%;
+  }
+}
+
+@media (max-width: 600px) {
+  .sub-hero {
+    height: 55vh;
+    padding: 1.5rem;
+  }
+
+  .sub-hero h1 {
+    font-size: 2rem;
+  }
+
+  .routes-section {
+    padding: 3rem 5%;
+  }
+
+  .booking-form {
+    padding: 2rem;
+  }
+
+  .includes-list li {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
