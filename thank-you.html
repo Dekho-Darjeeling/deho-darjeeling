@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank You | Dekho Darjeeling</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+<style>
+.thankyou-container {
+  text-align: center;
+  padding: 120px 20px;
+}
+.thankyou-container h1 {
+  font-size: 2.4rem;
+  margin-bottom: 10px;
+}
+.thankyou-container p {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  opacity: .9;
+}
+.btn-group a {
+  display: inline-block;
+  margin: 8px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #fff;
+}
+.btn-primary {
+  background: linear-gradient(45deg, #1f9ef8, #0b67d6);
+}
+.btn-secondary {
+  background: rgba(0,0,0,.3);
+  border: 1px solid #fff;
+}
+</style>
+</head>
+
+<body>
+
+<section class="thankyou-container fade-up">
+  <h1>Thank You!</h1>
+  <p>Your request has been received. Our team will contact you shortly.</p>
+
+  <div class="btn-group">
+    <a href="index.html" class="btn-primary">Back To Home</a>
+    <a href="tours.html" class="btn-secondary">View Tours</a>
+    <a href="hiking.html" class="btn-secondary">View Trekking</a>
+  </div>
+</section>
+
+<script>
+gsap.from('.fade-up', {opacity:0, y:40, duration:1});
+</script>
+
+</body>
+</html>

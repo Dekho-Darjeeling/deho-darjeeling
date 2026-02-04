@@ -5,18 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book a Trek | Dekho Darjeeling</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/hiking.css">
-    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="frontend/assets/css/hiking.css">
+    <link rel="stylesheet" href="frontend/assets/css/global.css">
+    <link rel="stylesheet" href="frontend/assets/css/booking.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     <!-- HEADER -->
     <header class="header sticky">
-        <div class="logo"><img src="assets/images/DekhoDarjeeling_PNG.png" alt="Logo"></div>
+        <div class="logo"><img src="frontend/assets/images/DekhoDarjeeling_PNG.png" alt="Logo"></div>
         <nav class="nav-links">
             <a href="index.html">Home</a>
+            <a href="hiking.html"class="active">Hiking & Trekking</a>
             <a href="tours.html">Tours</a>
-            <a href="hiking.html"class="active">Hiking</a>
             <a href="gallery.html">Gallery</a>
             <a href="contact.html">Contact</a>
         </nav>
@@ -29,8 +31,8 @@
                 <i class="fa-solid fa-xmark" id="drawer-close"></i>
             </div>
             <a href="index.html">Home</a>
+            <a href="hiking.html" class="active">Hiking & Trekking</a>
             <a href="tours.html">Tours</a>
-            <a href="hiking.html" class="active">Hiking</a>
             <a href="gallery.html">Gallery</a>
             <a href="contact.html">Contact</a>
         </div>
@@ -65,58 +67,60 @@
     </section>
 
     <!-- BOOKING FORM -->
-    <section class="booking-section" data-animate>
-        <h2>Trekking Expedition Booking Form</h2>
-        <form id="trekkingForm" class="booking-form" method="POST" action="http://localhost:8000/api/book-trek">
-            <div class="form-group">
-                <label>Full Name *</label>
-                <input type="text" name="name" required placeholder="Your full name">
-            </div>
-            <div class="form-group">
-                <label>Email *</label>
-                <input type="email" name="email" required placeholder="you@example.com">
-            </div>
-            <div class="form-group">
-                <label>Phone *</label>
-                <input type="tel" name="phone" required placeholder="+91-XXXXXXXXXX">
-            </div>
-            <div class="form-group">
-                <label>Select Trekking Route *</label>
-                <select name="route" required>
-                    <option value="">Choose one</option>
-                    <option>Sandakphu - Phalut Expedition</option>
-                    <option>Goecha La Trek</option>
-                    <option>Singalila Ridge Trek</option>
-                    <option>Kurseong Jungle Trek</option>
-                    <option>Customized Trekking Expedition</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Duration *</label>
-                <select name="duration" required>
-                    <option value="">Select duration</option>
-                    <option>1 Day</option>
-                    <option>2 Days</option>
-                    <option>3 Days</option>
-                    <option>4+ Days</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Preferred Start Date *</label>
-                <input type="date" name="date" required>
-            </div>
-            <div class="form-group">
-                <label>Number of Participants *</label>
-                <input type="number" name="persons" min="1" required placeholder="e.g., 2">
-            </div>
-            <div class="form-group full">
-                <label>Additional Notes (Optional)</label>
-                <textarea name="notes" placeholder="Any health concerns, gear requirements, etc."></textarea>
-            </div>
-            <input type="hidden" name="captcha_token" id="captchaToken">
-            <button type="submit" class="btn primary">Submit Booking</button>
-        </form>
-    </section>
+   <!-- BOOKING FORM -->
+<section class="booking-section" data-animate>
+    <h2>Trekking Expedition Booking Form</h2>
+    <form action="submit-booking.php" method="POST" class="booking-form">
+        <input type="hidden" name="form-name" value="trekking-booking">
+        <p hidden><label>Don’t fill this out: <input name="bot-field"></label></p>
+
+        <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" name="name" required placeholder="Your full name">
+        </div>
+        <div class="form-group">
+            <label>Email *</label>
+            <input type="email" name="email" required placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+            <label>Phone *</label>
+            <input type="tel" name="phone" required placeholder="+91-XXXXXXXXXX">
+        </div>
+        <div class="form-group">
+            <label>Select Trekking Route *</label>
+            <select name="route" required>
+                <option value="">Choose one</option>
+                <option>Trekking</option>
+                <option>Hiking</option>
+                <option>Camping</option>
+                <option>Customized Trekking Expedition</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Duration *</label>
+            <select name="duration" required>
+                <option value="">Select duration</option>
+                <option>1 Day</option>
+                <option>2 Days</option>
+                <option>3 Days</option>
+                <option>4+ Days</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="short-label">Preferred Start Date *</label>
+            <input type="date" name="date" required>
+        </div>
+        <div class="form-group">
+            <label>Number of Participants *</label>
+            <input type="number" name="persons" min="1" required placeholder="e.g., 2">
+        </div>
+        <div class="form-group full">
+            <label>Additional Notes (Optional)</label>
+            <textarea name="notes" placeholder="Any health concerns, gear requirements, etc."></textarea>
+        </div>
+        <button type="submit" class="btn primary">Submit Booking</button>
+    </form>
+</section>  
 
     <!-- WHAT'S INCLUDED SECTION -->
     <section class="includes-section" data-animate>
@@ -166,7 +170,16 @@
         <p>© 2025 Dekho Darjeeling · Explore The Queen of Hills</p>
     </footer>
 
-    <script src="assets/js/app.js"></script>
-    <script src="assets/js/animations.js"></script>
+    <script src="frontend/assets/js/app.js"></script>
+    <script src="frontend/assets/js/animations.js"></script>
+
+<script>
+        // Clear the form if coming back from the thank you page
+        window.addEventListener('load', function() {
+            if (document.referrer && document.referrer.includes('submit/success')) {
+                document.querySelector('.booking-form').reset();
+            }
+        });
+    </script>
 </body>
 </html>

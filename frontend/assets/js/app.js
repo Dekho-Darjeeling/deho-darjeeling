@@ -1,0 +1,126 @@
+/* ============================================================
+   DEKHO DARJEELING - FULL WEBSITE LOGIC (Enhanced & Corrected 2026)
+   ============================================================ */
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- 1. STICKY HEADER SCROLL EFFECT ---
+    const header = document.querySelector('.header');
+    let ticking = false; // For performance optimization
+
+    const handleHeaderScroll = () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+                ticking = false;
+            });
+            ticking = true;
+        }
+    };
+
+    // --- 2. MOBILE HAMBURGER MENU DRAWER ---
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileDrawer = document.getElementById('mobile-drawer');
+    const backdrop = document.getElementById('mobile-backdrop');
+    const menuIcon = menuBtn.querySelector('i'); // Get the icon element
+
+    if (menuBtn && mobileDrawer) {
+        // Toggle Drawer on Button Click
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = mobileDrawer.classList.contains('open');
+            if (isOpen) {
+                closeDrawer();
+            } else {
+                openDrawer();
+            }
+        });
+
+        function openDrawer() {
+            mobileDrawer.classList.add('open');
+            menuBtn.classList.add('open');
+            menuIcon.className = 'fa-solid fa-times'; // Change to X icon
+            if (backdrop) backdrop.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent background scroll
+        }
+
+        function closeDrawer() {
+            mobileDrawer.classList.remove('open');
+            menuBtn.classList.remove('open');
+            menuIcon.className = 'fa-solid fa-bars'; // Revert to bars icon
+            if (backdrop) backdrop.classList.remove('show');
+            document.body.style.overflow = ''; // Restore scroll
+        }
+    }
+
+    // --- 3. GLOBAL CLICK LISTENER (Close Drawer on Outside Click) ---
+    window.addEventListener('click', (e) => {
+        if (mobileDrawer && mobileDrawer.classList.contains('open')) {
+            if (!mobileDrawer.contains(e.target) && !menuBtn.contains(e.target)) {
+                closeDrawer();
+            }
+        }
+    });
+
+    // Keyboard support: Close on Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileDrawer.classList.contains('open')) {
+            closeDrawer();
+        }
+    });
+
+    // --- 4. SCROLL REVEAL ANIMATIONS (Intersection Observer) ---
+    const animateElements = document.querySelectorAll('[data-animate]');
+    let staggerIndex = 0;
+
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.classList.add('animate');
+                }, staggerIndex * 100); // Stagger reveals for grids/lists
+                staggerIndex++;
+                // Optional: Uncomment to stop observing once revealed
+                // revealObserver.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    animateElements.forEach(el => {
+        revealObserver.observe(el);
+    });
+
+    // --- 5. FORM VALIDATION HINT (For Contact Forms) ---
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        form.addEventListener('submit', (e) => {
+            const requiredFields = form.querySelectorAll('[required]');
+            let isValid = true;
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.style.borderColor = '#ff6b35'; // Highlight invalid
+                    isValid = false;
+                } else {
+                    field.style.borderColor = '#2e8b57'; // Valid
+                }
+            });
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fill in all required fields.');
+            }
+        });
+    });
+
+    // --- 6. INITIALIZE SCROLL FUNCTIONS ---
+    window.addEventListener('scroll', handleHeaderScroll);
+    handleHeaderScroll(); // Run once on load
+});

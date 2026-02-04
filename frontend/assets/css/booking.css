@@ -1,0 +1,300 @@
+/* ================= BOOKING FORM (Super Responsive & Enhanced) ================= */
+
+.booking-section {
+  /* Enhanced padding with clamp for seamless scaling across devices */
+  padding: clamp(2rem, 8vw, 6rem) clamp(1rem, 5vw, 10%);
+  /* Refined gradient for a more premium feel */
+  background: linear-gradient(135deg, #e8f5e8 0%, #f0f8ff 50%, #e6f7ff 100%);
+  /* Subtle background pattern for depth (optional, can be removed if not desired) */
+  background-image: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  background-size: 200px 200px;
+  /* Smooth fade-in animation for the entire section */
+  animation: fadeInUp 1s ease-out;
+}
+
+.booking-form {
+  max-width: 900px; /* Slightly increased for better balance on large screens */
+  margin: 0 auto;
+  background: white;
+  /* Enhanced padding with clamp */
+  padding: clamp(2.5rem, 6vw, 5rem);
+  border-radius: 30px; /* More rounded for a modern look */
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1); /* Added inner glow for elegance */
+  /* Advanced grid: Auto-fit for better responsiveness, with min-width for form groups */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adapts to screen size, ensures min width */
+  gap: clamp(1rem, 3vw, 2rem); /* Responsive gap */
+  animation: fadeInUp 1.2s ease-out; /* Staggered animation */
+  position: relative;
+  overflow: hidden; /* For potential pseudo-element effects */
+}
+
+.booking-form h2 {
+  grid-column: span 2; /* Span full width on larger screens */
+  margin-bottom: 2.5rem;
+  color: #191970;
+  font-size: clamp(2rem, 4vw, 2.5rem); /* Larger, more scalable font */
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 1px;
+  /* Add a subtle text shadow for depth */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  text-align: left;
+  min-width: 0;
+  position: relative; /* For positioning icons or effects */
+  /* Add a slight lift on hover for interactivity */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-group.full {
+  grid-column: span 2; /* Full width on larger screens */
+}
+
+/* Add icons to labels for better UX (requires Font Awesome classes in HTML) */
+.form-group label {
+  display: flex;
+  align-items: flex-start; /* Changed to flex-start for better alignment on wrap */
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #333;
+  letter-spacing: 0.5px;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  word-break: break-word;
+  overflow-wrap: break-word; /* Forces wrapping at any character if needed */
+  hyphens: auto; /* Adds hyphens for better wrapping (if supported) */
+  white-space: normal; /* Allows full wrapping */
+  line-height: 1.2; /* Tighter line height for wrapped text */
+  max-width: 100%; /* Ensures it doesn't exceed container */
+}
+
+.form-group label::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  flex-shrink: 0; /* Prevents icon from shrinking */
+  align-self: flex-start; /* Keeps icon at top if text wraps */
+}
+
+/* Specific icons for each field (add corresponding classes to HTML labels, e.g., <label class="icon-user">) */
+.form-group:nth-child(1) label::before { content: '\f007'; font-family: 'Font Awesome 6 Free'; font-weight: 900; } /* User icon for name */
+.form-group:nth-child(2) label::before { content: '\f0e0'; font-family: 'Font Awesome 6 Free'; font-weight: 900; } /* Envelope for email */
+.form-group:nth-child(3) label::before { content: '\f095'; font-family: 'Font Awesome 6 Free'; font-weight: 900; } /* Phone for phone */
+.form-group:nth-child(4) label::before { content: '\f6fc'; font-family: 'Font Awesome 6 Free'; font-weight: 900; } /* Mountain for route */
+.form-group:nth-child(5) label::before { content: '\f017'; font-family: 'Font Awesome 6 Free'; font-weight: 900; } /* Clock for duration */
+.form-group:nth-child(6) label::before { content: '\f073'; font-family: 'Font Awesome 6 Free'; font-weight: 900; } /* Calendar for date */
+.form-group:nth-child(7) label::before { content: '\f0c0'; font-family: 'Font Awesome 6 Free'; font-weight: 900; } /* Users for participants */
+.form-group.full label::before { content: '\f075'; font-family: 'Font Awesome 6 Free'; font-weight: 900; } /* Comment for notes */
+
+/* Enhanced input styling */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: clamp(0.8rem, 2vw, 1.2rem) 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 15px; /* More rounded */
+  background: linear-gradient(145deg, #fafafa, #f0f0f0); /* Subtle gradient for depth */
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother transition */
+  box-sizing: border-box;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); /* Inner shadow for inset effect */
+}
+
+/* Advanced focus enhancements */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #191970;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(25, 25, 112, 0.2), inset 0 0 0 2px rgba(25, 25, 112, 0.1);
+  outline: none;
+  transform: scale(1.02); /* Slight scale for emphasis */
+}
+
+/* Placeholder styling */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  opacity: 0.6;
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+  color: #666;
+}
+
+/* Improved textarea */
+.form-group textarea {
+  min-height: 160px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Select dropdown arrow customization */
+.form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+/* Button enhancement with more flair */
+.booking-form button {
+  grid-column: span 2;
+  padding: clamp(1rem, 2.5vw, 1.5rem) 2rem;
+  background: linear-gradient(45deg, #191970, #228b22, #191970);
+  background-size: 200% 200%;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 20px rgba(25, 25, 112, 0.4);
+  width: 100%;
+  margin-top: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.booking-form button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.booking-form button:hover::before {
+  left: 100%;
+}
+
+.booking-form button:hover {
+  background-position: right center;
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(25, 25, 112, 0.6);
+}
+
+/* ================= RESPONSIVE (Form Specifics) ================= */
+
+/* Tablet and larger mobile devices (up to 900px) */
+@media (max-width: 900px) {
+  .booking-form {
+    grid-template-columns: 1fr; /* Stack vertically */
+    gap: clamp(1rem, 2vw, 1.5rem);
+    padding: clamp(2rem, 5vw, 3rem);
+  }
+
+  .booking-form h2,
+  .form-group.full,
+  .booking-form button {
+    grid-column: span 1;
+  }
+}
+
+/* Medium mobile devices (up to 600px) */
+@media (max-width: 600px) {
+  .booking-section {
+    padding: clamp(1.5rem, 6vw, 4rem) clamp(0.5rem, 4vw, 5%);
+  }
+
+  .booking-form {
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: 20px;
+  }
+
+  .booking-form h2 {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    margin-bottom: 2rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: clamp(0.7rem, 1.5vw, 1rem) 0.8rem;
+  }
+
+  .booking-form button {
+    padding: clamp(0.9rem, 2vw, 1.2rem) 1.5rem;
+  }
+}
+
+/* Small mobile devices (up to 480px) */
+@media (max-width: 480px) {
+  .booking-form {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea,
+  .booking-form button {
+    padding: 0.75rem 0.8rem;
+    font-size: 0.95rem;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+  }
+
+  .booking-form h2 {
+    font-size: 1.8rem;
+  }
+}
+
+/* Very small screens (up to 360px) */
+@media (max-width: 360px) {
+  .booking-section {
+    padding: 1rem 0.5rem;
+  }
+
+  .booking-form {
+    padding: 1rem;
+    border-radius: 15px;
+    grid-template-columns: 1fr; /* Force single column to give more space */
+    gap: 0.75rem; /* Tighter gap */
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.6rem 0.7rem;
+    font-size: 0.9rem; /* Slightly smaller for fit */
+  }
+
+  .booking-form button {
+    padding: 0.8rem 1rem;
+  }
+
+  .form-group label {
+    font-size: 0.75rem; /* Smaller font to fit */
+    margin-bottom: 0.5rem; /* Less margin */
+  }
+}
+
+/* Large screens (above 1200px) for ultra-wide displays */
+@media (min-width: 1200px) {
+  .booking-form {
+    max-width: 1000px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Allow more columns if space */
+  }
+
+  .booking-form h2 {
+    font-size: 3rem;
+  }
+}
