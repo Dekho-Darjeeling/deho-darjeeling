@@ -8,16 +8,32 @@
     <link rel="stylesheet" href="frontend/assets/css/hiking.css">
     <link rel="stylesheet" href="frontend/assets/css/global.css">
     <link rel="stylesheet" href="frontend/assets/css/booking.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Minimal inline styles for new elements; move to CSS later */
+        .form-progress { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .progress-step { flex: 1; text-align: center; padding: 10px; border-radius: 5px; background: #f0f0f0; margin: 0 5px; }
+        .progress-step.active { background: #007bff; color: white; }
+        .form-group { margin-bottom: 20px; opacity: 0; animation: fadeIn 0.5s ease-in-out forwards; }
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        /* Add more delays as needed */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .error-message { color: red; font-size: 0.9em; display: none; }
+        .btn-submit.loading { pointer-events: none; opacity: 0.6; }
+        .btn-submit.loading::after { content: ""; display: inline-block; width: 16px; height: 16px; border: 2px solid #fff; border-radius: 50%; border-top-color: transparent; animation: spin 1s linear infinite; margin-left: 10px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .success-message { display: none; background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-top: 20px; }
+        .input-icon input:invalid, .input-icon select:invalid, .input-icon textarea:invalid { border-color: red; }
+    </style>
 </head>
 <body>
     <!-- HEADER -->
     <header class="header sticky">
-        <div class="logo"><img src="frontend/assets/images/DekhoDarjeeling_PNG.png" alt="Logo"></div>
+        <div class="logo"><img src="frontend/assets/images/DekhoDarjeeling_PNG.png" alt="Dekho Darjeeling Logo"></div>
         <nav class="nav-links">
             <a href="index.html">Home</a>
-            <a href="hiking.html"class="active">Hiking & Trekking</a>
+            <a href="hiking.html" class="active">Hiking & Trekking</a>
             <a href="tours.html">Tours</a>
             <a href="gallery.html">Gallery</a>
             <a href="contact.html">Contact</a>
@@ -67,60 +83,130 @@
     </section>
 
     <!-- BOOKING FORM -->
-   <!-- BOOKING FORM -->
-<section class="booking-section" data-animate>
-    <h2>Trekking Expedition Booking Form</h2>
-    <form action="submit-booking.php" method="POST" class="booking-form">
-        <input type="hidden" name="form-name" value="trekking-booking">
-        <p hidden><label>Don’t fill this out: <input name="bot-field"></label></p>
+    <section class="booking-section">
+        <h2>Trekking Booking Form</h2>
+        <div class="form-progress">
+            <div class="progress-step active" data-step="1">Personal Info</div>
+            <div class="progress-step" data-step="2">Trek Details</div>
+            <div class="progress-step" data-step="3">Additional Info</div>
+        </div>
+        <form class="booking-form"
+      method="POST"
+      action="submit-booking.php"
+      novalidate>
 
-        <div class="form-group">
-            <label>Full Name *</label>
-            <input type="text" name="name" required placeholder="Your full name">
-        </div>
-        <div class="form-group">
-            <label>Email *</label>
-            <input type="email" name="email" required placeholder="you@example.com">
-        </div>
-        <div class="form-group">
-            <label>Phone *</label>
-            <input type="tel" name="phone" required placeholder="+91-XXXXXXXXXX">
-        </div>
-        <div class="form-group">
-            <label>Select Trekking Route *</label>
-            <select name="route" required>
-                <option value="">Choose one</option>
-                <option>Trekking</option>
-                <option>Hiking</option>
-                <option>Camping</option>
-                <option>Customized Trekking Expedition</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Duration *</label>
-            <select name="duration" required>
-                <option value="">Select duration</option>
-                <option>1 Day</option>
-                <option>2 Days</option>
-                <option>3 Days</option>
-                <option>4+ Days</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="short-label">Preferred Start Date *</label>
-            <input type="date" name="date" required>
-        </div>
-        <div class="form-group">
-            <label>Number of Participants *</label>
-            <input type="number" name="persons" min="1" required placeholder="e.g., 2">
-        </div>
-        <div class="form-group full">
-            <label>Additional Notes (Optional)</label>
-            <textarea name="notes" placeholder="Any health concerns, gear requirements, etc."></textarea>
-        </div>
-        <button type="submit" class="btn primary">Submit Booking</button>
-    </form>
-</section>  
+            <input type="hidden" name="form-name" value="trekking-booking">
+            <p hidden><label>Don’t fill this out: <input name="bot-field"></label></p>
+
+            <fieldset class="form-section" data-section="1">
+                <legend>Step 1: Personal Information</legend>
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <div class="input-icon">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" name="name" id="name" placeholder="Your full name" required aria-describedby="name-error">
+                    </div>
+                    <span id="name-error" class="error-message">Full name is required.</span>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <div class="input-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" name="email" id="email" placeholder="you@example.com" required aria-describedby="email-error">
+                    </div>
+                    <span id="email-error" class="error-message">Please enter a valid email address.</span>
+                </div>
+
+                <!-- Phone -->
+                <div class="form-group">
+                    <label for="phone">Phone *</label>
+                    <div class="input-icon">
+                        <i class="fa-solid fa-phone"></i>
+                        <input type="tel" name="phone" id="phone" placeholder="+91-XXXXXXXXXX" required pattern="[0-9]{10,}" aria-describedby="phone-error">
+                    </div>
+                    <span id="phone-error" class="error-message">Please enter a valid phone number (at least 10 digits).</span>
+                </div>
+            </fieldset>
+
+            <fieldset class="form-section" data-section="2">
+                <legend>Step 2: Trek Details</legend>
+                <!-- Select Trekking Route -->
+                <div class="form-group">
+                    <label for="route">Select Trekking Route *</label>
+                    <div class="input-icon">
+                        <i class="fa-solid fa-mountain"></i>
+                        <select name="route" id="route" required aria-describedby="route-error">
+                            <option value="">Choose one</option>
+                            <option>Sandakphu – Phalut</option>
+                            <option>Goecha La</option>
+                            <option>Singalila Ridge</option>
+                            <option>Custom Trek</option>
+                        </select>
+                    </div>
+                    <span id="route-error" class="error-message">Please select a trekking route.</span>
+                </div>
+
+                <!-- Duration -->
+                <div class="form-group">
+                    <label for="duration">Duration *</label>
+                    <div class="input-icon">
+                        <i class="fa-solid fa-clock"></i>
+                        <select name="duration" id="duration" required aria-describedby="duration-error">
+                            <option value="">Select duration</option>
+                            <option>1 Day</option>
+                            <option>2 Days</option>
+                            <option>3 Days</option>
+                            <option>4+ Days</option>
+                        </select>
+                    </div>
+                    <span id="duration-error" class="error-message">Please select a duration.</span>
+                </div>
+
+                <!-- Preferred Start Date -->
+                <div class="form-group">
+                    <label for="date">Preferred Start Date *</label>
+                    <div class="input-icon">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <input type="date" name="date" id="date" required min="<?php echo date('Y-m-d'); ?>" aria-describedby="date-error">
+                    </div>
+                    <span id="date-error" class="error-message">Please select a valid future date.</span>
+                </div>
+
+                <!-- Number of Participants -->
+                <div class="form-group">
+                    <label for="persons">Number of Participants *</label>
+                    <div class="input-icon">
+                        <i class="fa-solid fa-users"></i>
+                        <input type="number" name="persons" id="persons" min="1" placeholder="e.g. 2" required aria-describedby="persons-error">
+                    </div>
+                    <span id="persons-error" class="error-message">Please enter the number of participants (at least 1).</span>
+                </div>
+            </fieldset>
+
+            <fieldset class="form-section" data-section="3">
+                <legend>Step 3: Additional Information</legend>
+                <!-- Additional Notes -->
+                <div class="form-group full">
+                    <label for="notes">Additional Notes</label>
+                    <div class="input-icon textarea-icon">
+                        <i class="fa-solid fa-pen"></i>
+                        <textarea name="notes" id="notes" placeholder="Health concerns, gear requirements..."></textarea>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Submit -->
+            <button type="submit" class="btn-submit" onclick="handleSubmit(event)">
+                <i class="fa-solid fa-paper-plane"></i> Submit Booking
+            </button>
+            <div class="success-message" id="success-msg">
+                <i class="fa-solid fa-check-circle"></i> Thank you! Your trekking booking request has been submitted. We'll get back to you soon.
+            </div>
+        </form>
+    </section>
 
     <!-- WHAT'S INCLUDED SECTION -->
     <section class="includes-section" data-animate>
@@ -165,21 +251,52 @@
         </div>
     </section>
 
+    <a href="https://wa.me/918509212052?text=Hi%20Dekho%20Darjeeling!%20I'm%20interested%20in%20your%20tours." 
+   target="_blank" 
+   rel="noopener noreferrer" 
+   class="whatsapp-float" 
+   aria-label="Chat with us on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
     <!-- FOOTER -->
     <footer class="footer">
         <p>© 2025 Dekho Darjeeling · Explore The Queen of Hills</p>
     </footer>
 
     <script src="frontend/assets/js/app.js"></script>
-    <script src="frontend/assets/js/animations.js"></script>
+    <script src="frontend/assets/js/animation.js"></script>
+    <script>
+function handleSubmit(event) {
+    event.preventDefault(); // keep validation control
 
-<script>
-        // Clear the form if coming back from the thank you page
-        window.addEventListener('load', function() {
-            if (document.referrer && document.referrer.includes('submit/success')) {
-                document.querySelector('.booking-form').reset();
-            }
-        });
-    </script>
+    const form = document.querySelector('.booking-form');
+    const submitBtn = document.querySelector('.btn-submit');
+    let isValid = true;
+
+    // Validate required fields
+    form.querySelectorAll('[required]').forEach(field => {
+        const errorSpan = document.getElementById(field.id + '-error');
+        if (!field.checkValidity()) {
+            if (errorSpan) errorSpan.style.display = 'block';
+            isValid = false;
+        } else {
+            if (errorSpan) errorSpan.style.display = 'none';
+        }
+    });
+
+    if (!isValid) return;
+
+    // UI loading state
+    submitBtn.classList.add('loading');
+    submitBtn.innerHTML = 'Submitting...';
+
+    // ✅ ACTUAL SUBMISSION (THIS WAS MISSING)
+    setTimeout(() => {
+        form.submit(); // sends to submit-booking.php
+    }, 300);
+}
+</script>
+
 </body>
 </html>

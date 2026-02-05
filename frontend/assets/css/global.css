@@ -518,3 +518,84 @@ section::before {
   display: flex !important;
   visibility: visible !important;
 }
+
+
+
+
+/* ================= WHATSAPP FLOATING BUTTON ================= */
+
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(45deg, #25d366, #128c7e); /* WhatsApp green gradient */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 28px;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  z-index: 1000; /* Ensures it stays above other content */
+  transition: all 0.3s ease; /* Smooth hover transitions */
+  animation: whatsappPulse 2s infinite; /* Subtle pulse animation */
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1); /* Slight zoom on hover */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); /* Deeper shadow */
+  background: linear-gradient(45deg, #128c7e, #25d366); /* Reverse gradient for effect */
+}
+
+.whatsapp-float i {
+  transition: transform 0.3s ease; /* Icon animation on hover */
+}
+
+.whatsapp-float:hover i {
+  transform: rotate(10deg); /* Fun rotate effect */
+}
+
+/* Pulse Animation Keyframes */
+@keyframes whatsappPulse {
+  0% {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(37, 211, 102, 0.7);
+  }
+  50% {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 0 0 10px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+/* ================= RESPONSIVE ADJUSTMENTS ================= */
+
+@media (max-width: 768px) {
+  .whatsapp-float {
+    bottom: 15px;
+    right: 15px;
+    width: 55px;
+    height: 55px;
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .whatsapp-float {
+    bottom: 10px;
+    right: 10px;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+}
+
+/* Bounce Animation for WhatsApp Button */
+@keyframes whatsappBounce {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}

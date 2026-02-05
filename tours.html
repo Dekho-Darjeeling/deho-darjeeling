@@ -7,16 +7,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="frontend/assets/css/tour.css">
     <link rel="stylesheet" href="frontend/assets/css/global.css">
-        <link rel="stylesheet" href="frontend/assets/css/booking.css">
+    <link rel="stylesheet" href="frontend/assets/css/booking.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Minimal inline styles for new elements; move to CSS later */
+        .form-progress { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .progress-step { flex: 1; text-align: center; padding: 10px; border-radius: 5px; background: #f0f0f0; margin: 0 5px; }
+        .progress-step.active { background: #007bff; color: white; }
+        .form-group { margin-bottom: 20px; opacity: 0; animation: fadeIn 0.5s ease-in-out forwards; }
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        /* Add more delays as needed */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .error-message { color: red; font-size: 0.9em; display: none; }
+        .btn-submit.loading { pointer-events: none; opacity: 0.6; }
+        .btn-submit.loading::after { content: ""; display: inline-block; width: 16px; height: 16px; border: 2px solid #fff; border-radius: 50%; border-top-color: transparent; animation: spin 1s linear infinite; margin-left: 10px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .success-message { display: none; background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-top: 20px; }
+        .input-icon input:invalid, .input-icon select:invalid, .input-icon textarea:invalid { border-color: red; }
+    </style>
 </head>
 <body>
     <!-- HEADER -->
     <header class="header sticky">
-        <div class="logo"><img src="frontend/assets/images/DekhoDarjeeling_PNG.png" alt="Logo"></div>
+        <div class="logo"><img src="frontend/assets/images/DekhoDarjeeling_PNG.png" alt="Dekho Darjeeling Logo"></div>
         <nav class="nav-links">
             <a href="index.html">Home</a>
-            <a href="hiking.html" >Hiking & Trekking</a>
+            <a href="hiking.html">Hiking & Trekking</a>
             <a href="tours.html" class="active">Tours</a>
             <a href="gallery.html">Gallery</a>
             <a href="contact.html">Contact</a>
@@ -72,63 +89,150 @@
     </section>
 
     <!-- BOOKING FORM -->
-    <section class="booking-section" data-animate>
+    <section class="booking-section">
         <h2>Tour Booking Form</h2>
-    <form action="submit-booking.php" method="POST" class="booking-form">
+        <div class="form-progress">
+            <div class="progress-step active" data-step="1">Personal Info</div>
+            <div class="progress-step" data-step="2">Tour Details</div>
+            <div class="progress-step" data-step="3">Additional Info</div>
+        </div>
+<form action="submit-booking.php" method="POST" autocomplete="on" class="booking-form">
 
-  <input type="hidden" name="form-name" value="tour-booking">
-  <p hidden>
-    <label>Don’t fill this out: <input name="bot-field"></label>
-  </p>
+    <!-- REQUIRED FOR PHP (NO UI IMPACT) -->
+    <input type="hidden" name="form-name" value="tour-booking">
 
-  <div class="form-group">
-    <label>Full Name *</label>
-    <input type="text" name="name" required>
-  </div>
+    <p hidden>
+        <label>Don’t fill this out:
+            <input name="bot-field">
+        </label>
+    </p>
 
-  <div class="form-group">
-    <label>Email *</label>
-    <input type="email" name="email" required>
-  </div>
+    <!-- STEP 1 -->
+    <fieldset class="form-section" data-section="1">
+        <legend>Step 1: Personal Information</legend>
 
-  <div class="form-group">
-    <label>Phone *</label>
-    <input type="tel" name="phone" required>
-  </div>
+        <div class="form-group">
+            <label for="name">Full Name *</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-user"></i>
+                <input type="text"
+                       name="name"
+                       id="name"
+                       placeholder="Your full name"
+                       autocomplete="name"
+                       required>
+            </div>
+        </div>
 
-  <div class="form-group">
-    <label>Select Tour Package *</label>
-    <select name="package" required>
-      <option value="">Choose One</option>
-      <option>Tiger Hill Sunrise Tour</option>
-      <option>City Heritage Tour</option>
-      <option>Tea Garden Tour</option>
-      <option>Mirik Lake & Indo-Border Tour</option>
-      <option>Custom Tour</option>
-    </select>
-  </div>
+        <div class="form-group">
+            <label for="email">Email *</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email"
+                       name="email"
+                       id="email"
+                       placeholder="your@email.com"
+                       autocomplete="email"
+                       required>
+            </div>
+        </div>
 
-  <div class="form-group">
-    <label>Preferred Date *</label>
-    <input type="date" name="date" required>
-  </div>
+        <div class="form-group">
+            <label for="phone">Phone *</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-phone"></i>
+                <input type="tel"
+                       name="phone"
+                       id="phone"
+                       placeholder="Mobile number"
+                       autocomplete="tel"
+                       pattern="[0-9]{10}"
+                       required>
+            </div>
+        </div>
+    </fieldset>
 
-  <div class="form-group">
-    <label>Number of People *</label>
-    <input type="number" name="persons" min="1" required>
-  </div>
+    <!-- STEP 2 -->
+    <fieldset class="form-section" data-section="2">
+        <legend>Step 2: Tour Details</legend>
 
-  <div class="form-group full">
-    <label>Pickup Location</label>
-    <input type="text" name="pickup">
-  </div>
+        <div class="form-group">
+            <label for="package">Select Tour Package *</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <select name="package" id="package" required>
+                    <option value="">Choose One</option>
+                    <option>Tiger Hill Sunrise Tour</option>
+                    <option>City Heritage Tour</option>
+                    <option>Tea Garden Tour</option>
+                    <option>Mirik Lake Tour</option>
+                    <option>Custom Tour</option>
+                </select>
+            </div>
+        </div>
 
-  <div class="form-group full">
-    <label>Additional Notes</label>
-    <textarea name="notes"></textarea>
-  </div>
+        <div class="form-group">
+            <label for="date">Preferred Date *</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-calendar-days"></i>
+                <input type="date"
+                       name="date"
+                       id="date"
+                       required>
+            </div>
+        </div>
 
-  <button type="submit" class="btn primary">Submit Booking</button>
+        <div class="form-group">
+            <label for="people">Number of People *</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-users"></i>
+                <!-- IMPORTANT FIX: name="persons" -->
+                <input type="number"
+                       min="1"
+                       name="persons"
+                       id="people"
+                       required>
+            </div>
+        </div>
+    </fieldset>
+
+    <!-- STEP 3 -->
+    <fieldset class="form-section" data-section="3">
+        <legend>Step 3: Additional Information</legend>
+
+        <div class="form-group full">
+            <label for="pickup">Pickup Location</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-location-dot"></i>
+                <input type="text"
+                       name="pickup"
+                       id="pickup"
+                       autocomplete="street-address"
+                       placeholder="Hotel / Station / Airport">
+            </div>
+        </div>
+
+        <div class="form-group full">
+            <label for="notes">Additional Notes</label>
+            <div class="input-icon textarea-icon">
+                <i class="fa-solid fa-pen"></i>
+                <textarea name="notes"
+                          id="notes"
+                          placeholder="Any special requests..."></textarea>
+            </div>
+        </div>
+    </fieldset>
+
+    <!-- SUBMIT -->
+    <button type="submit" class="btn-submit" onclick="handleSubmit(event)">
+                <i class="fa-solid fa-paper-plane"></i> Submit Booking
+            </button>
+
+    <div class="success-message" id="success-msg">
+        <i class="fa-solid fa-check-circle"></i>
+        Thank you! Your booking request has been submitted.
+    </div>
+
 </form>
 
     </section>
@@ -176,30 +280,50 @@
         </div>
     </section>
 
+    <!-- WhatsApp Floating Button -->
+<a href="https://wa.me/918388988848?text=Hi%20Dekho%20Darjeeling/Roshni%20Travels!%20I'm%20interested%20in%20your%20tours." 
+   target="_blank" 
+   rel="noopener noreferrer" 
+   class="whatsapp-float" 
+   aria-label="Chat with us on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
     <!-- FOOTER -->
     <footer class="footer">
         <p>© 2025 Dekho Darjeeling — Explore The Queen of Hills</p>
     </footer>
 
     <script src="frontend/assets/js/app.js"></script>
-    <script src="frontend/assets/js/animations.js"></script>
-    <script>
-        function handleSubmit() {
-            // Set replyto to the user's email for auto-reply
-            const email = document.querySelector('input[name="email"]').value;
-            document.getElementById('replyto').value = email;
-            
-            // Set sessionStorage for form clearing
-            sessionStorage.setItem('formSubmitted', 'true');
-        }
+    <script src="frontend/assets/js/animation.js"></script>
+  <script>
+const form = document.querySelector('.booking-form');
+const submitBtn = document.querySelector('.btn-submit');
 
-        // Clear the form if it was submitted previously
-        window.addEventListener('load', function() {
-            if (sessionStorage.getItem('formSubmitted') === 'true') {
-                document.querySelector('.booking-form').reset();
-                sessionStorage.removeItem('formSubmitted');
-            }
-        });
-    </script>
+form.addEventListener('submit', function (e) {
+    let isValid = true;
+
+    form.querySelectorAll('[required]').forEach(field => {
+        const errorSpan = document.getElementById(field.id + '-error');
+
+        if (!field.checkValidity()) {
+            errorSpan.style.display = 'block';
+            isValid = false;
+        } else {
+            errorSpan.style.display = 'none';
+        }
+    });
+
+    if (!isValid) {
+        e.preventDefault();
+        return;
+    }
+
+    // allow real submission to PHP
+    submitBtn.classList.add('loading');
+    submitBtn.textContent = 'Submitting...';
+});
+</script>
+
 </body>
 </html>

@@ -45,6 +45,7 @@ switch ($formName) {
     case 'tour-booking':
         $adminEmail = 'roshnitravels2022@gmail.com';
         $replyEmail = 'roshnitravels2022@gmail.com';
+        $ccEmail    = 'dekhodarj@gmail.com';
 
         $adminSubject = 'New Tour Booking - Dekho Darjeeling';
         $adminBody = "
@@ -177,16 +178,27 @@ try {
     $mail->addReplyTo($replyEmail, 'Dekho Darjeeling');
 
     /* ---------- ADMIN MAIL ---------- */
-    $mail->addAddress($adminEmail);
-    $mail->isHTML(false);
-    $mail->Subject = $adminSubject;
-    $mail->Body    = $adminBody;
-    $mail->send();
+$mail->addAddress($adminEmail);
+
+/* CC copy for tour booking */
+if ($formName === 'tour-booking') {
+    $mail->addCC($ccEmail);
+}
+
+$mail->isHTML(false);
+$mail->Subject = $adminSubject;
+$mail->Body    = $adminBody;
+$mail->send();
+
 
     /* ---------- CUSTOMER MAIL ---------- */
-    $mail->clearAddresses();
-    $mail->isHTML(true);
-    $mail->CharSet = 'UTF-8';
+   $mail->clearAddresses();
+$mail->clearCCs();
+$mail->clearBCCs();
+
+$mail->isHTML(true);
+$mail->CharSet = 'UTF-8';
+
 
     $mail->addEmbeddedImage(__DIR__ . '/frontend/assets/images/logo.jpeg', 'logoimg');
     $mail->addAddress($email);

@@ -1,5 +1,5 @@
 /* ============================================================
-   DEKHO DARJEELING - FULL WEBSITE LOGIC (Enhanced & Corrected 2026)
+   DEKHO DARJEELING - FULL WEBSITE LOGIC (Enhanced & Corrected 2025)
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,9 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!ticking) {
             requestAnimationFrame(() => {
                 if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
+                    header?.classList.add('scrolled'); // Optional chaining for safety
                 } else {
-                    header.classList.remove('scrolled');
+                    header?.classList.remove('scrolled');
                 }
                 ticking = false;
             });
@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 2. MOBILE HAMBURGER MENU DRAWER ---
     const menuBtn = document.getElementById('menu-btn');
     const mobileDrawer = document.getElementById('mobile-drawer');
-    const backdrop = document.getElementById('mobile-backdrop');
-    const menuIcon = menuBtn.querySelector('i'); // Get the icon element
+    const backdrop = document.getElementById('mobile-backdrop'); // Assuming you have this; add if needed
+    const menuIcon = menuBtn?.querySelector('i'); // Get the icon element safely
 
     if (menuBtn && mobileDrawer) {
         // Toggle Drawer on Button Click
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function openDrawer() {
             mobileDrawer.classList.add('open');
             menuBtn.classList.add('open');
-            menuIcon.className = 'fa-solid fa-times'; // Change to X icon
+            if (menuIcon) menuIcon.className = 'fa-solid fa-times'; // Change to X icon
             if (backdrop) backdrop.classList.add('show');
             document.body.style.overflow = 'hidden'; // Prevent background scroll
         }
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function closeDrawer() {
             mobileDrawer.classList.remove('open');
             menuBtn.classList.remove('open');
-            menuIcon.className = 'fa-solid fa-bars'; // Revert to bars icon
+            if (menuIcon) menuIcon.className = 'fa-solid fa-bars'; // Revert to bars icon
             if (backdrop) backdrop.classList.remove('show');
             document.body.style.overflow = ''; // Restore scroll
         }
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 3. GLOBAL CLICK LISTENER (Close Drawer on Outside Click) ---
     window.addEventListener('click', (e) => {
         if (mobileDrawer && mobileDrawer.classList.contains('open')) {
-            if (!mobileDrawer.contains(e.target) && !menuBtn.contains(e.target)) {
+            if (!mobileDrawer.contains(e.target) && !menuBtn?.contains(e.target)) {
                 closeDrawer();
             }
         }
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Keyboard support: Close on Escape
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && mobileDrawer.classList.contains('open')) {
+        if (e.key === 'Escape' && mobileDrawer?.classList.contains('open')) {
             closeDrawer();
         }
     });
@@ -82,22 +82,26 @@ document.addEventListener('DOMContentLoaded', () => {
         rootMargin: "0px 0px -50px 0px"
     };
 
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.classList.add('animate');
-                }, staggerIndex * 100); // Stagger reveals for grids/lists
-                staggerIndex++;
-                // Optional: Uncomment to stop observing once revealed
-                // revealObserver.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
+    try {
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('animate');
+                    }, staggerIndex * 100); // Stagger reveals for grids/lists
+                    staggerIndex++;
+                    // Optional: Uncomment to stop observing once revealed
+                    // revealObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
 
-    animateElements.forEach(el => {
-        revealObserver.observe(el);
-    });
+        animateElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+    } catch (error) {
+        console.warn('IntersectionObserver not supported:', error); // Fallback for older browsers
+    }
 
     // --- 5. FORM VALIDATION HINT (For Contact Forms) ---
     const forms = document.querySelectorAll('form');
@@ -120,7 +124,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 6. INITIALIZE SCROLL FUNCTIONS ---
+    // --- 6. WHATSAPP BUTTON BOUNCE ANIMATION (On Page Load) ---
+    const whatsappBtn = document.querySelector('.whatsapp-float');
+    if (whatsappBtn) {
+        // Trigger bounce-in effect on load
+        whatsappBtn.style.animation = 'whatsappBounce 1s ease-out';
+        // After bounce, switch to the default pulse animation (from CSS)
+        setTimeout(() => {
+            whatsappBtn.style.animation = 'whatsappPulse 2s infinite';
+        }, 1000); // Delay to let bounce finish
+    }
+
+    // --- 7. INITIALIZE SCROLL FUNCTIONS ---
     window.addEventListener('scroll', handleHeaderScroll);
     handleHeaderScroll(); // Run once on load
 });
