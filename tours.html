@@ -224,7 +224,7 @@
     </fieldset>
 
     <!-- SUBMIT -->
-    <button type="submit" class="btn-submit" onclick="handleSubmit(event)">
+    <button type="submit" class="btn-submit">
                 <i class="fa-solid fa-paper-plane"></i> Submit Booking
             </button>
 
@@ -296,7 +296,8 @@
 
     <script src="frontend/assets/js/app.js"></script>
     <script src="frontend/assets/js/animation.js"></script>
-  <script>
+  
+    <script>
 const form = document.querySelector('.booking-form');
 const submitBtn = document.querySelector('.btn-submit');
 
@@ -304,13 +305,9 @@ form.addEventListener('submit', function (e) {
     let isValid = true;
 
     form.querySelectorAll('[required]').forEach(field => {
-        const errorSpan = document.getElementById(field.id + '-error');
-
         if (!field.checkValidity()) {
-            errorSpan.style.display = 'block';
             isValid = false;
-        } else {
-            errorSpan.style.display = 'none';
+            field.focus();
         }
     });
 
@@ -319,7 +316,6 @@ form.addEventListener('submit', function (e) {
         return;
     }
 
-    // allow real submission to PHP
     submitBtn.classList.add('loading');
     submitBtn.textContent = 'Submitting...';
 });

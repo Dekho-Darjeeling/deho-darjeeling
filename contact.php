@@ -8,7 +8,7 @@ require 'PHPMailer/SMTP.php';
 
 /* ---------- BLOCK DIRECT ACCESS ---------- */
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: tours.html');
+    header('Location: index.html');
     exit;
 }
 
@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 function clean($data) {
     return htmlspecialchars(trim($data), ENT_QUOTES, 'UTF-8');
 }
-
 
 /* ---------- COMMON FIELDS ---------- */
 $name     = clean($_POST['name'] ?? '');
@@ -31,24 +30,29 @@ $route    = clean($_POST['route'] ?? '');
 $duration = clean($_POST['duration'] ?? '');
 $package  = clean($_POST['package'] ?? '');
 $pickup   = clean($_POST['pickup'] ?? 'Not provided');
+$purpose  = clean($_POST['purpose'] ?? '');
+$message  = clean($_POST['message'] ?? '');
 
 /* ---------- BOT PROTECTION ---------- */
 if (!empty($_POST['bot-field'])) {
     exit;
 }
 
+/* ---------- FORM NAME ---------- */
 $formName = $_POST['form-name'] ?? '';
+
+/* ---------- DEFAULT EMAIL CONFIG ---------- */
+$adminEmail = 'dekhodarj@gmail.com';
+$replyEmail = 'dekhodarj@gmail.com';
 
 /* ---------- FORM SWITCH ---------- */
 switch ($formName) {
 
-    /* ===== TOUR ===== */
+    /* ===== TOUR BOOKING ===== */
     case 'tour-booking':
-        $adminEmail = 'dekhodarj@gmail.com';
-        $replyEmail = 'dekhodarj@gmail.com';
-        $ccEmail    = 'roshnitravels.business@gmail.com';
 
         $adminSubject = 'New Tour Booking - Dekho Darjeeling';
+
         $adminBody = "
 NEW TOUR BOOKING
 
@@ -69,12 +73,11 @@ Notes: $notes
         ";
         break;
 
-    /* ===== TREKKING ===== */
+    /* ===== TREKKING BOOKING ===== */
     case 'trekking-booking':
-        $adminEmail = 'dekhodarj@gmail.com';
-        $replyEmail = 'dekhodarj@gmail.com';
 
         $adminSubject = 'New Trekking Booking - Dekho Darjeeling';
+
         $adminBody = "
 NEW TREKKING BOOKING
 
@@ -96,13 +99,36 @@ Notes: $notes
         ";
         break;
 
+    /* ===== CONTACT FORM ===== */
+    case 'contact-form':
+
+        $adminSubject = 'New Contact Inquiry - Dekho Darjeeling';
+
+        $adminBody = "
+NEW CONTACT MESSAGE
+
+Name: $name
+Email: $email
+Phone: $phone
+Inquiry Type: $purpose
+
+Message:
+$message
+";
+
+        $detailsTable = "
+            <tr><td><strong>Inquiry Type</strong></td><td>$purpose</td></tr>
+            <tr><td><strong>Message</strong></td><td>$message</td></tr>
+        ";
+        break;
+
     default:
-        header('Location: tours.html?error=invalid');
+        header('Location: index.html?error=invalid');
         exit;
 }
 
-/* ---------- HTML EMAIL TEMPLATE ---------- */
-$userSubject = 'Booking Confirmation – Dekho Darjeeling 🌄';
+/* ---------- CUSTOMER AUTO-REPLY TEMPLATE ---------- */
+$userSubject = 'We received your request – Dekho Darjeeling 🌄';
 
 $userBody = '
 <!DOCTYPE html>
@@ -161,58 +187,50 @@ Warm regards,<br>
 </html>
 ';
 
-/* ---------- SEND MAIL ---------- */
-$mail = new PHPMailer(true);
-
+/* ---------- SMTP SEND ---------- */
 try {
-    // SMTP
+
+    /* === ADMIN MAIL === */
+    $mail = new PHPMailer(true);
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
-    $mail->Username   = 'dekhodarj@gmail.com';   // MAIN SMTP
+    $mail->Username   = 'dekhodarj@gmail.com';
     $mail->Password   = 'bobyewcszxouawvh';
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = 587;
 
-    // FROM & REPLY
-    $mail->setFrom('dekhodarj@gmail.com', 'Dekho Darjeeling');
-    $mail->addReplyTo($replyEmail, 'Dekho Darjeeling');
+    $mail->setFrom('dekhodarj@gmail.com', 'Dekho Darjeeling Website');
+    $mail->addAddress($adminEmail);
+    $mail->addReplyTo($email, $name);
 
-    /* ---------- ADMIN MAIL ---------- */
-$mail->addAddress($adminEmail);
-
-/* CC copy for tour booking */
-if ($formName === 'tour-booking') {
-    $mail->addCC($ccEmail);
-}
-
-$mail->isHTML(false);
-$mail->Subject = $adminSubject;
-$mail->Body    = $adminBody;
-$mail->send();
-
-
-    /* ---------- CUSTOMER MAIL ---------- */
-   $mail->clearAddresses();
-$mail->clearCCs();
-$mail->clearBCCs();
-
-$mail->isHTML(true);
-$mail->CharSet = 'UTF-8';
-
-
-    $mail->addEmbeddedImage(__DIR__ . '/frontend/assets/images/logo.jpeg', 'logoimg');
-    $mail->addAddress($email);
-    $mail->Subject = $userSubject;
-    $mail->Body    = $userBody;
+    $mail->isHTML(true);
+    $mail->Subject = $adminSubject;
+    $mail->Body    = nl2br($adminBody);
     $mail->send();
+
+    /* === CUSTOMER AUTO-REPLY === */
+    $userMail = new PHPMailer(true);
+    $userMail->isSMTP();
+    $userMail->Host       = 'smtp.gmail.com';
+    $userMail->SMTPAuth   = true;
+    $userMail->Username   = 'dekhodarj@gmail.com';
+    $userMail->Password   = 'bobyewcszxouawvh';
+    $userMail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $userMail->Port       = 587;
+
+    $userMail->setFrom('dekhodarj@gmail.com', 'Dekho Darjeeling');
+    $userMail->addAddress($email, $name);
+    $userMail->addEmbeddedImage('frontend/assets/images/DekhoDarjeeling_PNG.png', 'logoimg');
+
+    $userMail->isHTML(true);
+    $userMail->Subject = $userSubject;
+    $userMail->Body    = $userBody;
+    $userMail->send();
 
     header('Location: thank-you.html');
     exit;
 
 } catch (Exception $e) {
-    error_log($mail->ErrorInfo);
-    header('Location: tours.html?error=mail');
-    exit;
+    echo "Mailer Error: " . $e->getMessage();
 }
-

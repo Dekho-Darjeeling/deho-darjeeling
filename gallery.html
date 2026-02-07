@@ -61,12 +61,30 @@
 
     <!-- GALLERY GRID -->
     <section class="gallery-grid" data-animate>
-        <img src="img/gallery1.jpg" class="gallery-item" data-category="nature" alt="Tea Garden">
-        <img src="img/gallery2.jpg" class="gallery-item" data-category="adventure" alt="Tiger Hill">
-        <img src="img/gallery3.jpg" class="gallery-item" data-category="adventure" alt="Trekking Route">
-        <img src="img/gallery4.jpg" class="gallery-item" data-category="tours" alt="Local Market">
-        <img src="img/gallery5.jpg" class="gallery-item" data-category="nature" alt="Mount Kanchenjunga">
-        <img src="img/gallery6.jpg" class="gallery-item" data-category="nature" alt="Valley View">
+        <!--Adventure Images-->
+        <img src="frontend/assets/images/adventure/1.jpeg" class="gallery-item" data-category="adventure" alt="Tiger Hill">
+        <img src="frontend/assets/images/adventure/3.jpeg" class="gallery-item" data-category="adventure" alt="Tiger Hill">
+        <img src="frontend/assets/images/adventure/4.jpeg" class="gallery-item" data-category="adventure" alt="Tiger Hill">
+        <img src="frontend/assets/images/adventure/5.jpeg" class="gallery-item" data-category="adventure" alt="Tiger Hill">
+        <img src="frontend/assets/images/adventure/6.jpeg" class="gallery-item" data-category="adventure" alt="Tiger Hill">
+        <img src="frontend/assets/images/adventure/7.jpeg" class="gallery-item" data-category="adventure" alt="Tiger Hill">
+        <img src="frontend/assets/images/adventure/8.jpeg" class="gallery-item" data-category="adventure" alt="Tiger Hill">
+        <img src="frontend/assets/images/adventure/10.jpeg" class="gallery-item" data-category="adventure" alt="Tiger Hill">
+
+        <!--Tour Images-->
+        <img src="frontend/assets/images/tour/1.jpeg" class="gallery-item" data-category="tours" alt="Local Market">
+        <img src="frontend/assets/images/tour/2.jpeg" class="gallery-item" data-category="tours" alt="Local Market">
+        <img src="frontend/assets/images/tour/3.jpeg" class="gallery-item" data-category="tours" alt="Local Market">
+        <img src="frontend/assets/images/tour/4.jpeg" class="gallery-item" data-category="tours" alt="Local Market">
+        <img src="frontend/assets/images/tour/5.jpeg" class="gallery-item" data-category="tours" alt="Local Market">
+        <img src="frontend/assets/images/tour/6.jpeg" class="gallery-item" data-category="tours" alt="Local Market">
+        <img src="frontend/assets/images/tour/7.jpeg" class="gallery-item" data-category="tours" alt="Local Market">
+        <img src="frontend/assets/images/tour/8.jpeg" class="gallery-item" data-category="tours" alt="Local Market">
+
+        <!--Nature Images-->
+        <img src="frontend/assets/images/nature/1.png" class="gallery-item" data-category="nature" alt="Tiger Hill">
+        <img src="frontend/assets/images/nature/2.jpeg" class="gallery-item" data-category="nature" alt="Tea Garden">
+        <img src="frontend/assets/images/nature/9.jpeg" class="gallery-item" data-category="nature" alt="Tiger Hill">
     </section>
 
     <!-- CALL TO ACTION -->
@@ -76,12 +94,20 @@
     </section>
 
     <!-- LIGHTBOX -->
-    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-        <button class="lightbox-prev" onclick="changeImage(-1)">&#10094;</button>
-        <img id="lightboxImage">
-        <button class="lightbox-next" onclick="changeImage(1)">&#10095;</button>
-    </div>
+<div id="lightbox" class="lightbox">
+    <button class="lightbox-close" aria-label="Close">&times;</button>
+
+    <button class="lightbox-prev" aria-label="Previous image">
+        <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <img id="lightboxImage" alt="Gallery preview">
+
+    <button class="lightbox-next" aria-label="Next image">
+        <i class="fa-solid fa-chevron-right"></i>
+    </button>
+</div>
+
 
 
     <a href="https://wa.me/918509212052?text=Hi%20Dekho%20Darjeeling!%20I'm%20interested%20in%20your%20tours." 
@@ -98,69 +124,100 @@
     </footer>
 
     <script src="frontend/assets/js/app.js"></script>
-    <script>
+<script>
+/* ================= GALLERY FILTER ================= */
+const filterBtns = document.querySelectorAll(".filter-btn");
+const allImages = Array.from(document.querySelectorAll(".gallery-item"));
 
-        // Gallery Filtering
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const galleryItems = document.querySelectorAll('.gallery-item');
+let activeImages = [...allImages];
+let currentIndex = 0;
 
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const filter = btn.getAttribute('data-filter');
-                galleryItems.forEach(item => {
-                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
-                        item.style.display = 'block';
-                        gsap.fromTo(item, {opacity: 0, scale: 0.9}, {opacity: 1, scale: 1, duration: 0.5});
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            });
-        });
+filterBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    filterBtns.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
 
-        // Lightbox
-        const lightbox = document.getElementById('lightbox');
-        const lightImg = document.getElementById('lightboxImage');
-        let currentIndex = 0;
-        const images = Array.from(galleryItems);
+    const filter = btn.dataset.filter;
+    activeImages = [];
 
-        images.forEach((img, index) => {
-            img.addEventListener('click', () => {
-                currentIndex = index;
-                showImage();
-            });
-        });
+    allImages.forEach(img => {
+      if (filter === "all" || img.dataset.category === filter) {
+        img.style.display = "block";
+        activeImages.push(img);
+      } else {
+        img.style.display = "none";
+      }
+    });
+  });
+});
 
-        function showImage() {
-            lightImg.src = images[currentIndex].src;
-            lightbox.classList.add('show');
-        }
+/* ================= LIGHTBOX ================= */
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImage");
+const btnPrev = document.querySelector(".lightbox-prev");
+const btnNext = document.querySelector(".lightbox-next");
+const btnClose = document.querySelector(".lightbox-close");
 
-        function closeLightbox() {
-            lightbox.classList.remove('show');
-        }
+/* Open lightbox */
+function openLightbox(index) {
+  if (!activeImages.length) return;
+  currentIndex = index;
+  lightboxImg.src = activeImages[currentIndex].src;
+  lightbox.classList.add("show");
+}
 
-        function changeImage(direction) {
-            currentIndex = (currentIndex + direction + images.length) % images.length;
-            showImage();
-        }
+/* Close */
+function closeLightbox() {
+  lightbox.classList.remove("show");
+}
 
-        // Keyboard Navigation
-        document.addEventListener('keydown', (e) => {
-            if (lightbox.classList.contains('show')) {
-                if (e.key === 'ArrowLeft') changeImage(-1);
-                if (e.key === 'ArrowRight') changeImage(1);
-                if (e.key === 'Escape') closeLightbox();
-            }
-        });
+/* Change image */
+function changeImage(step) {
+  if (!activeImages.length) return;
+  currentIndex =
+    (currentIndex + step + activeImages.length) % activeImages.length;
+  lightboxImg.src = activeImages[currentIndex].src;
+}
 
-        // Animations
-        gsap.from('.gallery-hero h1, .gallery-hero p, .gallery-hero .btn', {opacity: 0, y: 30, duration: 1, stagger: 0.2});
-        gsap.from('.gallery-filter', {opacity: 0, y: 50, duration: 1, delay: 0.5});
-        gsap.from('.gallery-grid img', {opacity: 0, scale: 0.95, duration: 1, stagger: 0.15, delay: 0.7});
-        gsap.from('.cta-section', {opacity: 0, y: 50, duration: 1, delay: 1});
-    </script>
+/* Image click binding */
+allImages.forEach(img => {
+  img.addEventListener("click", () => {
+    const index = activeImages.indexOf(img);
+    if (index !== -1) openLightbox(index);
+  });
+});
+
+/* Button bindings */
+btnPrev.addEventListener("click", e => {
+  e.stopPropagation();
+  changeImage(-1);
+});
+
+btnNext.addEventListener("click", e => {
+  e.stopPropagation();
+  changeImage(1);
+});
+
+btnClose.addEventListener("click", e => {
+  e.stopPropagation();
+  closeLightbox();
+});
+
+/* Keyboard support */
+document.addEventListener("keydown", e => {
+  if (!lightbox.classList.contains("show")) return;
+
+  if (e.key === "ArrowLeft") changeImage(-1);
+  if (e.key === "ArrowRight") changeImage(1);
+  if (e.key === "Escape") closeLightbox();
+});
+
+/* Init default */
+window.addEventListener("load", () => {
+  document.querySelector('.filter-btn[data-filter="all"]').click();
+});
+</script>
+
+
 </body>
 </html>
