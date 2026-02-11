@@ -88,6 +88,20 @@
         </a>
     </section>
 
+
+    <!-- TOUR PARTNER NOTICE -->
+<section class="partner-notice">
+  <div class="partner-container">
+    <i class="fa-solid fa-handshake"></i>
+    <p>
+      <strong>Official Tour Execution Partner:</strong>
+      All Darjeeling tour bookings are operated in collaboration with 
+      <span>Roshni Travels</span>.
+    </p>
+  </div>
+</section>
+
+
     <!-- BOOKING FORM -->
     <section class="booking-section">
         <h2>Tour Booking Form</h2>
@@ -251,16 +265,9 @@
     <!-- REVIEWS -->
     <section class="reviews-section" data-animate>
         <h2>Guest Reviews</h2>
-        <div class="review-card">
-            <i class="fa-solid fa-quote-left review-quote"></i>
-            <p>“Amazing experience! The sunrise tour was breathtaking. Highly recommend!”</p>
-            <span>- Maya, Bengaluru</span>
-        </div>
-        <div class="review-card">
-            <i class="fa-solid fa-quote-left review-quote"></i>
-            <p>“Friendly guide, comfortable vehicle, great planning. Will book again.”</p>
-            <span>- Rohan, Pune</span>
-        </div>
+       <div id="reviews-container">
+    <!-- Reviews will load here --> 
+  </div>
     </section>
 
     <!-- FAQ -->
@@ -280,8 +287,8 @@
         </div>
     </section>
 
-    <!-- WhatsApp Floating Button -->
-<a href="https://wa.me/918388988848?text=Hi%20Dekho%20Darjeeling/Roshni%20Travels!%20I'm%20interested%20in%20your%20tours." 
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/918509212052?text=Hi%20Dekho%20Darjeeling!%20I'm%20interested%20in%20your%20trekking/tours." 
    target="_blank" 
    rel="noopener noreferrer" 
    class="whatsapp-float" 
@@ -316,10 +323,53 @@ form.addEventListener('submit', function (e) {
         return;
     }
 
+  // UI loading state
     submitBtn.classList.add('loading');
-    submitBtn.textContent = 'Submitting...';
+    submitBtn.innerHTML = 'Submitting...';
+
+    // ✅ ACTUAL SUBMISSION (THIS WAS MISSING)
+    setTimeout(() => {
+        form.submit(); // sends to submit-booking.php
+    }, 300);
 });
 </script>
+
+<script>
+const SHEET_ID = "1oIp_EVzB8FZgGCEdkfDWuvn8ya5tjCzZM-yUQ0Mkthw";
+const SHEET_NAME = "Roshni Travels";
+
+const URL = `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
+
+fetch(URL)
+  .then(response => response.json())
+  .then(reviews => {
+    const container = document.getElementById("reviews-container");
+
+    if (!container || reviews.length === 0) {
+      container.innerHTML = "<p>No reviews available.</p>";
+      return;
+    }
+
+    container.innerHTML = "";
+
+    reviews.slice(0, 5).forEach(r => {
+      const rating = parseInt(r.rating) || 5;
+      const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
+
+      container.innerHTML += `
+        <div class="review-card">
+          <div class="review-stars">${stars}</div>
+          <span>– ${r.name}</span>
+          <p>"${r.rating}"</p>
+        </div>
+      `;
+    });
+  })
+  .catch(error => {
+    console.error("Reviews load error:", error);
+  });
+</script>
+
 
 </body>
 </html>

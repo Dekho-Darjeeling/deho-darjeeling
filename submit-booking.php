@@ -24,7 +24,8 @@ $email    = clean($_POST['email'] ?? '');
 $phone    = clean($_POST['phone'] ?? '');
 $date     = clean($_POST['date'] ?? '');
 $persons  = clean($_POST['persons'] ?? '');
-$notes    = clean($_POST['notes'] ?? 'None');
+$notes = clean($_POST['notes'] ?? '');
+
 
 /* ---------- OPTIONAL ---------- */
 $route    = clean($_POST['route'] ?? '');
@@ -38,6 +39,55 @@ if (!empty($_POST['bot-field'])) {
 }
 
 $formName = $_POST['form-name'] ?? '';
+
+/* PREP GOOGLE PAYLOAD */
+$googlePayload = [
+    "type" => "",
+    "name" => $name,
+    "email" => $email,
+    "phone" => $phone,
+    "package_or_route" => "",
+    "duration" => "",
+    "date" => $date,
+    "persons" => $persons,
+    "pickup" => $pickup,
+    "notes" => $notes
+];
+
+switch ($formName) {
+    case 'tour-booking':
+        $googlePayload["type"] = "Tour";
+        $googlePayload["package_or_route"] = $package;
+        break;
+
+    case 'trekking-booking':
+        $googlePayload["type"] = "Trekking";
+        $googlePayload["package_or_route"] = $route;
+        $googlePayload["duration"] = $duration;
+        break;
+
+    default:
+        exit;
+}
+
+/* SEND TO GOOGLE SHEET */
+$googleScriptURL = "https://script.google.com/macros/s/AKfycbynwieFye77mMkC_ASwba-jQztAvqMQl6xV8Ym7QbWr37LhAw2-M1lI605xiWl6ZMwR0g/exec";
+
+$ch = curl_init($googleScriptURL);
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+    CURLOPT_POSTFIELDS => json_encode($googlePayload)
+]);
+$response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+if ($httpCode !== 200) {
+    error_log('Google Sheet Error: ' . $response);
+}
+
 
 /* ---------- FORM SWITCH ---------- */
 switch ($formName) {

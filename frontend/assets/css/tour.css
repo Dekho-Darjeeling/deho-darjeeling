@@ -412,3 +412,70 @@
     padding: 2rem;
   }
 }
+
+
+.review-stars {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  color: #fbbc04; /* Google yellow */
+  font-size: 1.3rem;
+  margin-bottom: 14px;
+}
+
+.review-card p {
+  font-style: italic;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.review-card span {
+  font-weight: 600;
+  color: #2e8b57;
+}
+
+
+/* ================= PARTNER NOTICE (SAFE ADDITION) ================= */
+
+.partner-notice {
+  padding: 1.5rem 1rem;
+  background: #f0f8ff;
+}
+
+.partner-container {
+  max-width: 900px;
+  margin: auto;
+  background: #ffffff;
+  padding: 1.2rem 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #228b22;
+}
+
+.partner-container i {
+  font-size: 1.5rem;
+  color: #228b22;
+}
+
+.partner-container p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+.partner-container span {
+  color: #191970;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .partner-container {
+    flex-direction: column;
+    text-align: center;
+  }
+}

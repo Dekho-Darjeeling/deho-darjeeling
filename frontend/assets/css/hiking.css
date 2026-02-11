@@ -419,29 +419,37 @@
   }
 }
 
-/* ================= WHATSAPP FLOAT BUTTON (ADDED BASE STYLES) ================= */
+/* ================= WHATSAPP FLOAT BUTTON (CORRECTED FOR VISIBILITY) ================= */
+/* ================= WHATSAPP FLOAT – FORCE FIX ================= */
+
 .whatsapp-float {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
+  position: fixed !important;
+  right: 18px !important;
+  bottom: 20px !important;
+  width: 56px;
+  height: 56px;
   background: #25d366;
-  color: white;
+  color: #fff;
   border-radius: 50%;
-  display: flex;
+  display: flex !important;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 28px;
   text-decoration: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  z-index: 999;
-  transition: all 0.3s ease;
+  z-index: 99999 !important;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+  pointer-events: auto !important;
 }
 
-.whatsapp-float:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+.whatsapp-float * {
+  pointer-events: none;
+}
+
+/* MOBILE SAFETY */
+@media (max-width: 768px) {
+  .whatsapp-float {
+    bottom: 90px !important;
+  }
 }
 
 /*sandakphu booking*/
@@ -459,7 +467,7 @@
   font-size: 14px;
   border-radius: 50px;
   box-shadow: 0 12px 30px rgba(255, 107, 53, 0.45);
-  z-index: 999;
+  z-index: 998; /* Lower than WhatsApp */
   text-decoration: none;
   animation: floatPulse 2s infinite;
 }
@@ -525,17 +533,23 @@
     font-size: 14px;
   }
 
+  @media (max-width: 768px) {
+  .floating-trek-cta {
+    display: none !important;
+  }
+}
+
+
   /* Avoid content being hidden */
   body {
     padding-bottom: 70px;
   }
-}
 
-/* Move WhatsApp button above mobile booking bar - FIXED: Increased bottom and added z-index */
-@media (max-width: 768px) {
+
+  /* Move WhatsApp button above mobile booking bar - INCREASED CLEARANCE */
   .whatsapp-float {
-    bottom: 100px; /* increased from 90px to ensure it's above the 64px bar */
-    z-index: 1001; /* higher than mobile bar's 1000 */
+    bottom: 100px; /* INCREASED: More space above the 64px bar + shadow */
+    z-index: 10000; /* EVEN HIGHER: Ensures it stays on top */
   }
 }
 
@@ -586,4 +600,24 @@
   .hero-featured-trek .trek-cta:hover i {
     transform: translateX(3px);
   }
+}
+
+.review-stars {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  color: #fbbc04; /* Google yellow */
+  font-size: 1.3rem;
+  margin-bottom: 14px;
+}
+
+.review-card p {
+  font-style: italic;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.review-card span {
+  font-weight: 600;
+  color: #2e8b57;
 }
