@@ -445,43 +445,8 @@ form.addEventListener('submit', function (e) {
 </script>
 
 
-<script>
-const SHEET_ID = "1oIp_EVzB8FZgGCEdkfDWuvn8ya5tjCzZM-yUQ0Mkthw";
-const SHEET_NAME = "Dekho Darjeeling";
-
-const URL = `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
-
-fetch(URL)
-  .then(response => response.json())
-  .then(reviews => {
-    const container = document.getElementById("reviews-container");
-
-    if (!container || reviews.length === 0) {
-      container.innerHTML = "<p>No reviews available.</p>";
-      return;
-    }
-
-    container.innerHTML = "";
-
-    reviews.slice(0, 5).forEach(r => {
-      const rating = parseInt(r.rating) || 5;
-      const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
-
-      container.innerHTML += `
-        <div class="review-card">
-          <div class="review-stars">${stars}</div>
-          <span>– ${r.name}</span>
-          <p>"${r.rating}"</p>
-        </div>
-      `;
-    });
-  })
-  .catch(error => {
-    console.error("Reviews load error:", error);
-  });
-</script>
-
 
 
 </body>
 </html>
+
