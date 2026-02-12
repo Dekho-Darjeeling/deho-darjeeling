@@ -602,3 +602,30 @@ section::before {
 
 
 
+
+
+/* ================= FORCE NAV VISIBLE FOR SIMPLE HEADER ================= */
+
+@media (max-width: 768px) {
+
+  .header.simple-header .nav-links {
+    display: flex !important;
+    gap: 1rem;
+  }
+
+  .header.simple-header .mobile-menu-btn {
+    display: none !important;
+  }
+
+}
+
+
+/* ================= CONTACT PAGE HEADER FIX ================= */
+
+.header.contact-header .nav-links {
+  display: flex !important;
+}
+
+.header.contact-header .mobile-menu-btn {
+  display: none !important;
+}

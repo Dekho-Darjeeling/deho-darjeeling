@@ -615,7 +615,7 @@
 /* Move WhatsApp button above mobile booking bar */
 @media (max-width: 768px) {
   .whatsapp-float {
-    bottom: 80px; /* push it above the bottom bar */
+    bottom: 20px; /* push it above the bottom bar */
   }
 }
 

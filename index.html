@@ -10,38 +10,51 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="frontend/assets/css/tour.css">
+    <link rel="stylesheet" href="frontend/assets/css/booking.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 
     <!-- CSS Links -->
     <link rel="stylesheet" href="frontend/assets/css/global.css">
     <link rel="stylesheet" href="frontend/assets/css/index.css">
+
+
+  <style>
+        /* Minimal inline styles for new elements; move to CSS later */
+        .form-progress { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .progress-step { flex: 1; text-align: center; padding: 10px; border-radius: 5px; background: #f0f0f0; margin: 0 5px; }
+        .progress-step.active { background: #007bff; color: white; }
+        .form-group { margin-bottom: 20px; opacity: 0; animation: fadeIn 0.5s ease-in-out forwards; }
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        /* Add more delays as needed */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .error-message { color: red; font-size: 0.9em; display: none; }
+        .btn-submit.loading { pointer-events: none; opacity: 0.6; }
+        .btn-submit.loading::after { content: ""; display: inline-block; width: 16px; height: 16px; border: 2px solid #fff; border-radius: 50%; border-top-color: transparent; animation: spin 1s linear infinite; margin-left: 10px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .success-message { display: none; background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-top: 20px; }
+        .input-icon input:invalid, .input-icon select:invalid, .input-icon textarea:invalid { border-color: red; }
+    </style>
 </head>
 <body>
 
      <!-- HEADER -->
-    <header class="header sticky">
-        <div class="logo"><img src="frontend/assets/images/DekhoDarjeeling_PNG.png" alt="Logo"></div>
-        <nav class="nav-links">
-            <a href="index.html" class="active">Home</a>
-            <a href="hiking.html">Hiking & Trekking</a>
-            <a href="tours.html">Tours</a>
-            <a href="gallery.html">Gallery</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-        <div class="mobile-menu-btn" id="menu-btn">
-            <i class="fa-solid fa-bars"></i>
-        </div>
-        <div class="mobile-drawer" id="mobile-drawer">
-            <div class="drawer-header">
-                <span>Dekho Darjeeling</span>
-                <i class="fa-solid fa-xmark" id="drawer-close"></i>
-            </div>
-            <a href="index.html" class="active">Home</a>
-            <a href="hiking.html">Hiking & Trekking</a>
-            <a href="tours.html">Tours</a>
-            <a href="gallery.html">Gallery</a>
-            <a href="contact.html">Contact</a>
-        </div>
-    </header>
+    <!-- HEADER -->
+<header class="header sticky simple-header">
+    <div class="logo">
+        <img src="frontend/assets/images/DekhoDarjeeling_PNG.png" alt="Logo">
+    </div>
+
+    <nav class="nav-links">
+    <a href="contact.html" class="contact-nav-btn">
+    <i class="fa-solid fa-envelope"></i> Contact
+</a>
+</nav>
+</header>
+
 
    <!-- === HERO SECTION === -->
 <section class="hero" data-animate>
@@ -49,22 +62,6 @@
         <h1>Discover Darjeeling Like Never Before</h1>
         <p>Plan breathtaking tours and thrilling treks around the queen of hills.</p>
 
-        <!-- DESKTOP FEATURED TREK CTA -->
-        <div class="hero-featured-trek">
-            <span class="trek-name">Sandakphu Trek</span>
-
-            <a href="https://www.townscript.com/e/dekho-darjeeling-241233"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="trek-cta">
-                Book Now <i class="fa-solid fa-arrow-right"></i>
-            </a>
-        </div>
-
-        <div class="hero-buttons">
-            <a href="tours.html" class="btn primary">Book a Tour</a>
-            <a href="hiking.html" class="btn secondary">Book a Trek</a>
-        </div>
     </div>
     <div class="hero-overlay"></div>
 </section>
@@ -91,6 +88,296 @@
             </div>
         </div>
     </section>
+
+
+
+    <!--Hiking BOOKING FORM -->
+    <section class="booking-section">
+        <h2>Trekking Booking Form</h2>
+        <div class="form-progress">
+            <div class="progress-step active" data-step="1">Personal Info</div>
+            <div class="progress-step" data-step="2">Trek Details</div>
+            <div class="progress-step" data-step="3">Additional Info</div>
+        </div>
+        <form class="booking-form"
+      method="POST"
+      action="submit-booking.php"
+      novalidate>
+
+            <input type="hidden" name="form-name" value="trekking-booking">
+            <p hidden><label>Don’t fill this out: <input name="bot-field"></label></p>
+
+            <fieldset class="form-section" data-section="1">
+                <legend>Step 1: Personal Information</legend>
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <div class="input-icon">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" name="name" id="name" placeholder="Your full name" required aria-describedby="name-error">
+                    </div>
+                    <span id="name-error" class="error-message">Full name is required.</span>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <div class="input-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" name="email" id="email" placeholder="you@example.com" required aria-describedby="email-error">
+                    </div>
+                    <span id="email-error" class="error-message">Please enter a valid email address.</span>
+                </div>
+
+                <!-- Phone -->
+                <div class="form-group">
+                    <label for="phone">Phone *</label>
+                    <div class="input-icon">
+                        <i class="fa-solid fa-phone"></i>
+                        <input type="tel" name="phone" id="phone" placeholder="+91-XXXXXXXXXX" required pattern="[0-9]{10,}" aria-describedby="phone-error">
+                    </div>
+                    <span id="phone-error" class="error-message">Please enter a valid phone number (at least 10 digits).</span>
+                </div>
+            </fieldset>
+
+            <fieldset class="form-section" data-section="2">
+                <legend>Step 2: Trek Details</legend>
+                <!-- Select Trekking Route -->
+                <div class="form-group">
+                    <label for="route">Select Trekking Route *</label>
+                    <div class="input-icon">
+                        <i class="fa-solid fa-mountain"></i>
+                        <select name="route" id="route" required aria-describedby="route-error">
+                            <option value="">Choose one</option>
+                            <option>Hiking</option>
+                            <option>Trekking</option>
+                            <option>Camping</option>
+                            <option>Customize</option>
+                        </select>
+                    </div>
+                    <span id="route-error" class="error-message">Please select a trekking route.</span>
+                </div>
+
+                <!-- Duration -->
+                <div class="form-group">
+                    <label for="duration">Duration *</label>
+                    <div class="input-icon">
+                        <i class="fa-solid fa-clock"></i>
+                        <select name="duration" id="duration" required aria-describedby="duration-error">
+                            <option value="">Select duration</option>
+                            <option>1 Day</option>
+                            <option>2 Days</option>
+                            <option>3 Days</option>
+                            <option>4+ Days</option>
+                        </select>
+                    </div>
+                    <span id="duration-error" class="error-message">Please select a duration.</span>
+                </div>
+
+                <!-- Preferred Start Date -->
+                <div class="form-group">
+                    <label for="date">Preferred Start Date *</label>
+                    <div class="input-icon">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <input type="date" name="date" id="date" required min="<?php echo date('Y-m-d'); ?>" aria-describedby="date-error">
+                    </div>
+                    <span id="date-error" class="error-message">Please select a valid future date.</span>
+                </div>
+
+                <!-- Number of Participants -->
+                <div class="form-group">
+                    <label for="persons">Number of Participants *</label>
+                    <div class="input-icon">
+                        <i class="fa-solid fa-users"></i>
+                        <input type="number" name="persons" id="persons" min="1" placeholder="e.g. 2" required aria-describedby="persons-error">
+                    </div>
+                    <span id="persons-error" class="error-message">Please enter the number of participants (at least 1).</span>
+                </div>
+            </fieldset>
+
+            <fieldset class="form-section" data-section="3">
+                <legend>Step 3: Additional Information</legend>
+                <!-- Additional Notes -->
+                <div class="form-group full">
+                    <label for="notes">Additional Notes</label>
+                    <div class="input-icon textarea-icon">
+                        <i class="fa-solid fa-pen"></i>
+                        <textarea name="notes" id="notes" placeholder="Health concerns, gear requirements..."></textarea>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Submit -->
+            <button type="submit" class="btn-submit" onclick="handleSubmit(event)">
+                <i class="fa-solid fa-paper-plane"></i> Submit Booking
+            </button>
+            <div class="success-message" id="success-msg">
+                <i class="fa-solid fa-check-circle"></i> Thank you! Your trekking booking request has been submitted. We'll get back to you soon.
+            </div>
+        </form>
+    </section>
+
+
+       <!-- Tour BOOKING FORM -->
+    <section class="booking-section">
+        <h2>Tour Booking Form</h2>
+        <div class="form-progress">
+            <div class="progress-step active" data-step="1">Personal Info</div>
+            <div class="progress-step" data-step="2">Tour Details</div>
+            <div class="progress-step" data-step="3">Additional Info</div>
+        </div>
+<form action="submit-booking.php" method="POST" autocomplete="on" class="booking-form">
+
+    <!-- REQUIRED FOR PHP (NO UI IMPACT) -->
+    <input type="hidden" name="form-name" value="tour-booking">
+
+    <p hidden>
+        <label>Don’t fill this out:
+            <input name="bot-field">
+        </label>
+    </p>
+
+    <!-- STEP 1 -->
+    <fieldset class="form-section" data-section="1">
+        <legend>Step 1: Personal Information</legend>
+
+        <div class="form-group">
+            <label for="name">Full Name *</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-user"></i>
+                <input type="text"
+                       name="name"
+                       id="name"
+                       placeholder="Your full name"
+                       autocomplete="name"
+                       required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email *</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email"
+                       name="email"
+                       id="email"
+                       placeholder="your@email.com"
+                       autocomplete="email"
+                       required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone *</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-phone"></i>
+                <input type="tel"
+                       name="phone"
+                       id="phone"
+                       placeholder="Mobile number"
+                       autocomplete="tel"
+                       pattern="[0-9]{10}"
+                       required>
+            </div>
+        </div>
+    </fieldset>
+
+    <!-- STEP 2 -->
+    <fieldset class="form-section" data-section="2">
+        <legend>Step 2: Tour Details</legend>
+
+        <div class="form-group">
+            <label for="package">Select Tour Package *</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <select name="package" id="package" required>
+                    <option value="">Choose One</option>
+                    <option>Tiger Hill Sunrise Tour</option>
+                    <option>City Heritage Tour</option>
+                    <option>Tea Garden Tour</option>
+                    <option>Mirik Lake Tour</option>
+                    <option>Custom Tour</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Preferred Date *</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-calendar-days"></i>
+                <input type="date"
+                       name="date"
+                       id="date"
+                       required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="people">Number of People *</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-users"></i>
+                <!-- IMPORTANT FIX: name="persons" -->
+                <input type="number"
+                       min="1"
+                       name="persons"
+                       id="people"
+                       required>
+            </div>
+        </div>
+    </fieldset>
+
+    <!-- STEP 3 -->
+    <fieldset class="form-section" data-section="3">
+        <legend>Step 3: Additional Information</legend>
+
+        <div class="form-group full">
+            <label for="pickup">Pickup Location</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-location-dot"></i>
+                <input type="text"
+                       name="pickup"
+                       id="pickup"
+                       autocomplete="street-address"
+                       placeholder="Hotel / Station / Airport">
+            </div>
+        </div>
+
+        <div class="form-group full">
+            <label for="notes">Additional Notes</label>
+            <div class="input-icon textarea-icon">
+                <i class="fa-solid fa-pen"></i>
+                <textarea name="notes"
+                          id="notes"
+                          placeholder="Any special requests..."></textarea>
+            </div>
+        </div>
+    </fieldset>
+
+    <!-- SUBMIT -->
+    <button type="submit" class="btn-submit">
+                <i class="fa-solid fa-paper-plane"></i> Submit Booking
+            </button>
+
+    <div class="success-message" id="success-msg">
+        <i class="fa-solid fa-check-circle"></i>
+        Thank you! Your booking request has been submitted.
+    </div>
+
+</form>
+
+    </section>
+
+
+
+       <!-- REVIEWS -->
+<section class="reviews-section">
+  <h2>What Our Trekkers Say</h2>
+
+  <div id="reviews-container">
+    <!-- Reviews will load here -->
+  </div>
+</section>
+
 
     <!-- === HIGHLIGHTS === -->
     <section class="highlights" data-animate>
@@ -128,19 +415,73 @@
     <script src="frontend/assets/js/app.js"></script>
     <script src="frontend/assets/js/animation.js"></script>
 
-   <a href="https://www.townscript.com/e/dekho-darjeeling-241233"
-   target="_blank"
-   rel="noopener noreferrer"
-   class="mobile-trek-bar"
-   aria-label="Book Sandakphu Trek Now">
-  
-  <span class="trek-name">Sandakphu Trek</span>
-  <span class="book-now">
-    Book Now <i class="fa-solid fa-arrow-right"></i>
-  </span>
 
-</a>
+<script>
+const form = document.querySelector('.booking-form');
+const submitBtn = document.querySelector('.btn-submit');
 
+form.addEventListener('submit', function (e) {
+    let isValid = true;
+
+    form.querySelectorAll('[required]').forEach(field => {
+        if (!field.checkValidity()) {
+            isValid = false;
+            field.focus();
+        }
+    });
+
+    if (!isValid) {
+        e.preventDefault();
+        return;
+    }
+
+  // UI loading state
+    submitBtn.classList.add('loading');
+    submitBtn.innerHTML = 'Submitting...';
+
+    // ✅ ACTUAL SUBMISSION (THIS WAS MISSING)
+    setTimeout(() => {
+        form.submit(); // sends to submit-booking.php
+    }, 300);
+});
+</script>
+
+
+<script>
+const SHEET_ID = "1oIp_EVzB8FZgGCEdkfDWuvn8ya5tjCzZM-yUQ0Mkthw";
+const SHEET_NAME = "Dekho Darjeeling";
+
+const URL = `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
+
+fetch(URL)
+  .then(response => response.json())
+  .then(reviews => {
+    const container = document.getElementById("reviews-container");
+
+    if (!container || reviews.length === 0) {
+      container.innerHTML = "<p>No reviews available.</p>";
+      return;
+    }
+
+    container.innerHTML = "";
+
+    reviews.slice(0, 5).forEach(r => {
+      const rating = parseInt(r.rating) || 5;
+      const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
+
+      container.innerHTML += `
+        <div class="review-card">
+          <div class="review-stars">${stars}</div>
+          <span>– ${r.name}</span>
+          <p>"${r.rating}"</p>
+        </div>
+      `;
+    });
+  })
+  .catch(error => {
+    console.error("Reviews load error:", error);
+  });
+</script>
 
 
 

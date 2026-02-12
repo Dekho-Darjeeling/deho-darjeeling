@@ -448,7 +448,7 @@
 /* MOBILE SAFETY */
 @media (max-width: 768px) {
   .whatsapp-float {
-    bottom: 90px !important;
+    bottom: 20px !important;
   }
 }
 
